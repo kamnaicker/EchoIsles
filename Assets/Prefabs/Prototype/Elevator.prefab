@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 997455907854406631}
   - component: {fileID: 8165362323653932070}
   - component: {fileID: 5422842782423479715}
-  - component: {fileID: 1117945607908546889}
+  - component: {fileID: 6833227990615238398}
   - component: {fileID: 2559879686888937163}
   m_Layer: 0
   m_Name: Elevator
@@ -113,7 +113,7 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &1117945607908546889
+--- !u!114 &6833227990615238398
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -122,11 +122,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 3826669420308412536}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 36d56f4d864d5f74c8335d6580deb65d, type: 3}
+  m_Script: {fileID: 11500000, guid: 4c6604c48c23b5a4dab68de248079b4b, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Elevator
+  m_EditorClassIdentifier: Assembly-CSharp::TriggeredMovingObject
   trigger: {fileID: 0}
-  finalY: 3
+  finalPositionOffset: {x: 0, y: 3, z: 0}
   speed: 2
 --- !u!54 &2559879686888937163
 Rigidbody:
