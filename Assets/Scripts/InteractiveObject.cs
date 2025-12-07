@@ -1,15 +1,14 @@
 using System;
 using UnityEngine;
 
-
 public abstract class InteractiveObject : MonoBehaviour
 {
 	[SerializeField] private InteractiveObjectTrigger trigger;
 
 	protected virtual void Start()
 	{
-		trigger.onActivation += OnActivation;
-		trigger.onDeactivation += OnDeactivation;
+		trigger.OnActivation += OnActivation;
+		trigger.OnDeactivation += OnDeactivation;
 	}
 
 	protected abstract void OnActivation();

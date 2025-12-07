@@ -39,7 +39,7 @@ public class Player : MonoBehaviour
 		_fallTimeoutDelta = FallTimeout;
 	}
 
-	private void Update()
+	private void FixedUpdate()
 	{
 		ApplyGravity();
 		GroundedCheck();
@@ -97,6 +97,7 @@ public class Player : MonoBehaviour
 
 		if (_verticalVelocity < _terminalVelocity) _verticalVelocity += Gravity * Time.deltaTime;
 	}
+
 
 	private void OnDrawGizmosSelected()
 	{

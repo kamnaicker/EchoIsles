@@ -1,0 +1,9 @@
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/UI/HUD.uss?fileID=7433441132597879392&amp;guid=f23a6309346c8bf47a40aac60c88c900&amp;type=3#HUD" />
+    <ui:VisualElement name="container" style="flex-grow: 1;">
+        <ui:VisualElement name="replay-elements" style="flex-grow: 1; position: absolute; left: 30px; bottom: 30px; flex-direction: row; align-items: center;">
+            <ui:VisualElement name="replay-icon" style="flex-grow: 1; background-image: url(&quot;project://database/Assets/Sprites/return.png?fileID=2800000&amp;guid=54004694787fba048a8ec620fe495729&amp;type=3#return&quot;); min-width: 70px; max-width: none; min-height: 70px; -unity-background-image-tint-color: rgb(97, 203, 255); margin-right: 10px;" />
+            <ui:ProgressBar value="100" name="remaining-echo-bar" style="background-color: rgba(0, 0, 0, 0); -unity-background-image-tint-color: rgb(255, 255, 255); width: 235px; transform-origin: center; position: relative; left: auto; bottom: auto;" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>
