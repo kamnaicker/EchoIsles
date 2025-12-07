@@ -9,8 +9,8 @@ public class Replayer : MonoBehaviour
 	public static Replayer Instance;
 
 	[SerializeField] private UIDocument guiDocument;
-	public Transform player;
-	public Transform echo;
+	[SerializeField] private Transform player;
+	[SerializeField] private GameObject playerEchoPrefab;
 	[SerializeField] private bool recording = false;
 	[SerializeField] private bool replaying = false;
 
@@ -20,6 +20,7 @@ public class Replayer : MonoBehaviour
 	public float remainingDurationPercentage = 100f;
 	public bool isRecordingAvailable = false;
 
+	private GameObject _echoInstance = null;
 	private List<Vector3> _positions;
 	private ProgressBar _remainingEchoBar;
 	private VisualElement _replayIcon;
@@ -80,10 +81,22 @@ public class Replayer : MonoBehaviour
 			replaying = false;
 			remainingDuration = 10f;
 			remainingDurationPercentage = 100f;
+
+			_replayIcon.style.opacity = 0.5f;
+			_remainingEchoBar.style.opacity = 0.5f;
+
+			if (_echoInstance is not null)
+			{
+				Destroy(_echoInstance);
+				_echoInstance = null;
+			}
+
 			return;
 		}
 
-		echo.position = _positions.LastOrDefault();
+		_echoInstance ??= Instantiate(playerEchoPrefab, _positions.LastOrDefault(), Quaternion.identity);
+
+		_echoInstance.transform.position = _positions.LastOrDefault();
 		_positions.RemoveAt(_positions.Count - 1);
 
 		remainingDuration += Time.fixedDeltaTime;
@@ -109,7 +122,7 @@ public class Replayer : MonoBehaviour
 			_replayIcon.style.opacity = 1f;
 			_remainingEchoBar.style.opacity = 1f;
 		}
-		else
+		else if (!recording)
 		{
 			_replayIcon.style.opacity = 0.5f;
 			_remainingEchoBar.style.opacity = 0.5f;

@@ -44,3 +44,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 50709e8be954658418b2e9664ca26c99, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Replayer
+  guiDocument: {fileID: 0}
+  player: {fileID: 0}
+  playerEchoPrefab: {fileID: 7030480479421021728, guid: 2d75b68279fe94f49a1f8d52c2a8a820, type: 3}
+  recording: 0
+  replaying: 0
+  maxRecordingDuration: 10
+  remainingDuration: 10
+  remainingDurationPercentage: 100
+  isRecordingAvailable: 0
