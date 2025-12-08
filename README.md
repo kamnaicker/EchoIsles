@@ -1,7 +1,7 @@
 # 🎮 Echo Isles
 
 > **CM3030 – Game Development (2025)**  
-> Built with **Unity 6.2 LTS** · Single Player · Keyboard + Mouse · WebGL Target
+> Built with **Unity 6.3 LTS** · Single Player · Keyboard + Mouse · WebGL Target
 
 ---
 
@@ -19,7 +19,7 @@ The focus is on **clarity, polish, and atmosphere** — no combat, no heavy text
 | ------------ | -------------------------------------------------------------------------------------- |
 | **Genre**    | Isometric Puzzle Adventure                                                             |
 | **Length**   | 5 – 10 minutes (per module brief)                                                      |
-| **Engine**   | Unity 6.2 LTS + URP                                                                    |
+| **Engine**   | Unity 6.3 LTS + URP                                                                    |
 | **Platform** | WebGL (build for playtesting and submission)                                           |
 | **Controls** | Keyboard & Mouse only                                                                  |
 | **Goal**     | Deliver a polished vertical slice demonstrating strong design, iteration, and teamwork |
@@ -51,7 +51,7 @@ The focus is on **clarity, polish, and atmosphere** — no combat, no heavy text
 
 | Component                           | Purpose                                                  |
 | ----------------------------------- | -------------------------------------------------------- |
-| **Unity 6.2 LTS**                   | Core engine (LTS = stability & compatibility)            |
+| **Unity 6.3 LTS**                   | Core engine (LTS = stability & compatibility)            |
 | **URP – Universal Render Pipeline** | Lightweight stylised rendering                           |
 | **C# Scripts**                      | Player controller, Echo system, Puzzle logic, Game state |
 | **Git / GitHub**                    | Version control + collaboration                          |
@@ -87,5 +87,5 @@ Include the Jira issue key in each commit message to auto-link work items.
 **Example Commit Message**
 
 ```bash
-git commit -m "EIS-14: Added echo replay prototype and lever trigger logic"
+git commit -m "SCRUM-14: Added echo replay prototype and lever trigger logic"
 ```
