@@ -12,7 +12,14 @@ public class GameManager : MonoBehaviour
     void Awake()
     {
         // Ensure only one instance of GameManager exists
-        Instance = this;
+        if(Instance == null)
+        {
+            Instance = this;
+            //Persist GameManager across all scenes
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+            Destroy(gameObject);
     }
 
     void Start()
