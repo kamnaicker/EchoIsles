@@ -12,7 +12,8 @@ GameObject:
   - component: {fileID: 7417068397839178961}
   - component: {fileID: 662026607074791246}
   - component: {fileID: 1815535067522353189}
-  m_Layer: 0
+  - component: {fileID: 8730207157562088787}
+  m_Layer: 6
   m_Name: Wall_4m
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -67,7 +68,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  - {fileID: 2100000, guid: 406fbf39bf7843f439c2e2e8c853a258, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -112,3 +113,17 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &8730207157562088787
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1807445734086827512}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 00a19804c95f7d043a59fd1ad51f20e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnviromentOcclusion
+  fadedAlpha: 0.25
+  fadeDuration: 0.15
