@@ -18,7 +18,9 @@ public class TriggeredMovingObject : InteractiveObject
 	private Vector3 _initialPosition = Vector3.zero;
 	private Vector3 _finalPosition = Vector3.zero;
 
-	private void Update()
+	private Rigidbody _rb;
+
+	private void FixedUpdate()
 	{
 		HandleMovement();
 	}
@@ -26,6 +28,7 @@ public class TriggeredMovingObject : InteractiveObject
 	protected override void Start()
 	{
 		base.Start();
+		_rb = GetComponent<Rigidbody>();
 		_initialPosition = transform.position;
 		_finalPosition = _initialPosition + finalPositionOffset;
 	}
@@ -35,10 +38,12 @@ public class TriggeredMovingObject : InteractiveObject
 		if (_direction == MoveDirection.None) return;
 
 		Vector3 finalPosition = _direction == MoveDirection.Forward ? _finalPosition : _initialPosition;
-		transform.position = Vector3.Lerp(transform.position, finalPosition,
-			Time.deltaTime * speed);
+		Vector3 newPosition = Vector3.Lerp(transform.position, finalPosition,
+			Time.fixedDeltaTime * speed);
 
-		if (transform.position == _initialPosition) _direction = MoveDirection.None;
+		_rb.MovePosition(newPosition);
+
+		if (newPosition == _initialPosition) _direction = MoveDirection.None;
 	}
 
 	protected override void OnActivation()

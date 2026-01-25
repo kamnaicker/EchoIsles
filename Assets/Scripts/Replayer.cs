@@ -128,4 +128,24 @@ public class Replayer : MonoBehaviour
 			_remainingEchoBar.style.opacity = 0.5f;
 		}
 	}
+
+	public void OnRecord()
+	{
+		Debug.Log("Record");
+
+		if (!recording && isRecordingAvailable)
+		{
+			recording = true;
+			return;
+		}
+
+		if (recording) recording = false;
+	}
+
+	public void OnReplay()
+	{
+		Debug.Log("Replay");
+
+		if (!recording) replaying = true;
+	}
 }
