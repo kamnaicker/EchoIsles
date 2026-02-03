@@ -12,9 +12,9 @@ public class OcclusionManager : MonoBehaviour
     [SerializeField] private float padding = 0.2f;
 
     //track current faded walls
-    private HashSet<EnviromentOcclusion> currentlyOccluded = new HashSet<EnviromentOcclusion>();
+    private HashSet<WallSectionOcclusion> currentlyOccluded = new ();
     //track walls faded this frame
-    private HashSet<EnviromentOcclusion> occludedThisFrame = new HashSet<EnviromentOcclusion>();
+    private HashSet<WallSectionOcclusion> occludedThisFrame = new ();
     
     //called after update before handling occlusions
     void LateUpdate()
@@ -42,38 +42,35 @@ public class OcclusionManager : MonoBehaviour
         //loops through each hit wall and if it has the occluder script, fades out
         foreach (RaycastHit hit in hits)
         {
-            EnviromentOcclusion occluder = hit.collider.GetComponent<EnviromentOcclusion>();
-            if (occluder == null)
+            WallSectionOcclusion section =
+                hit.collider.GetComponentInParent<WallSectionOcclusion>();
+            if (section == null)
             {
                 continue;
             }
 
-            //tracking for faded walls
-            occluder.FadeOut();
-            occludedThisFrame.Add(occluder);
+            section.FadeOutSection();
 
-            if (!currentlyOccluded.Contains(occluder))
-            {
-                currentlyOccluded.Add(occluder);
-            }
+            occludedThisFrame.Add(section);
+            currentlyOccluded.Add(section);
         }
 
         //list to store walls to be faded back in
-        List<EnviromentOcclusion> toRemove = new List<EnviromentOcclusion>();
+        List<WallSectionOcclusion> toRemove = new();
 
         //loops through walls to be faded in, and does so
-        foreach(EnviromentOcclusion wall in currentlyOccluded)
+        foreach(WallSectionOcclusion section in currentlyOccluded)
         {
-            if(!occludedThisFrame.Contains(wall)) 
+            if(!occludedThisFrame.Contains(section)) 
             {
-                wall.FadeIn();
-                toRemove.Add(wall);
+                section.FadeInSection();
+                toRemove.Add(section);
             }
         }
 
-        foreach(EnviromentOcclusion wall in toRemove) 
+        foreach(WallSectionOcclusion section in toRemove) 
         { 
-            currentlyOccluded.Remove(wall); 
+            currentlyOccluded.Remove(section); 
         }
     }
 }

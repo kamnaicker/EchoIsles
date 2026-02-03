@@ -23,6 +23,7 @@ public class EnviromentOcclusion : MonoBehaviour
 
     public void FadeIn()
     {
+        Debug.Log($"Fading in {gameObject.name}");
         StartFade(1f);
     }
 
