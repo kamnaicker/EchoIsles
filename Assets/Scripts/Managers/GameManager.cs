@@ -34,7 +34,8 @@ public class GameManager : MonoBehaviour
         switch (newState)
         {
             case GameState.Initialisation:
-                // Handle initialisation logic
+                Debug.Log("Game Initialising...");
+                UpdateGameState(GameState.Menu);
                 break;
             case GameState.Menu:
                 // Handle menu logic
