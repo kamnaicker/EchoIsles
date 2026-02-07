@@ -73,6 +73,54 @@
                     "isPartOfComposite": true
                 }
             ]
+        },
+        {
+            "name": "Echo",
+            "id": "f559e64a-2358-4c57-86a5-0e59dd3af338",
+            "actions": [
+                {
+                    "name": "Record",
+                    "type": "Button",
+                    "id": "72037e6a-ef9f-49d9-b46a-b40f0d51a7f7",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Replay",
+                    "type": "Button",
+                    "id": "b5610cc4-f9eb-4b95-a294-92b22a0f4d5a",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "eb1248c2-b61d-4690-b177-6d4e6087bd7e",
+                    "path": "<Keyboard>/e",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Record",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "619b9ef3-d232-4ed5-9c77-ced0fe1f82df",
+                    "path": "<Keyboard>/r",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Replay",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
         }
     ],
     "controlSchemes": []

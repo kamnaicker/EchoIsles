@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 360873760141754774}
   - component: {fileID: 1610318494405825479}
+  - component: {fileID: 5248449823064977148}
   m_Layer: 0
   m_Name: Replayer
   m_TagString: Untagged
@@ -53,3 +54,33 @@ MonoBehaviour:
   remainingDuration: 10
   remainingDurationPercentage: 100
   isRecordingAvailable: 0
+--- !u!114 &5248449823064977148
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4394964823579109814}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.InputSystem::UnityEngine.InputSystem.PlayerInput
+  m_Actions: {fileID: -944628639613478452, guid: 895329027d700fe4382b7e87fca71699, type: 3}
+  m_NotificationBehavior: 0
+  m_UIInputModule: {fileID: 0}
+  m_DeviceLostEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_DeviceRegainedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ControlsChangedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ActionEvents: []
+  m_NeverAutoSwitchControlSchemes: 0
+  m_DefaultControlScheme: 
+  m_DefaultActionMap: f559e64a-2358-4c57-86a5-0e59dd3af338
+  m_SplitScreenIndex: -1
+  m_Camera: {fileID: 0}
