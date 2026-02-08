@@ -236,9 +236,9 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.shadergraph": {
-      "version": "17.3.0",
+      "version": "file:com.unity.shadergraph",
       "depth": 0,
-      "source": "builtin",
+      "source": "embedded",
       "dependencies": {
         "com.unity.render-pipelines.core": "17.3.0",
         "com.unity.searcher": "4.9.3"
