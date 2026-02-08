@@ -13,6 +13,9 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.render-pipelines.universal@d9aadd996b24/Shaders/Lit.shader" root0="SKIP_HIGHLIGHTING" />
+  </component>
   <component name="MetaFilesCheckinStateConfiguration" checkMetaFiles="true" />
   <component name="ProblemsViewState">
     <option name="selectedTabId" value="SWEA" />
@@ -124,6 +127,8 @@
       <workItem from="1768757235288" duration="5557000" />
       <workItem from="1768922239212" duration="5315000" />
       <workItem from="1769356905741" duration="4593000" />
+      <workItem from="1770057585047" duration="588000" />
+      <workItem from="1770457761912" duration="1964000" />
     </task>
     <servers />
   </component>
