@@ -6,27 +6,15 @@
   <component name="ChangeListManager">
     <list default="true" id="64b8dda1-a6d0-4df8-9fca-d9daa9b79f13" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.EchoIsles/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.EchoIsles/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Materials/Prototype/Ground_Proto.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Materials/Prototype/Ground_Proto.mat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Models/ground_tile_1x1.blend" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Models/ground_tile_1x1.blend.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Models/ground_tile_1x5.blend" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Models/ground_tile_1x5.blend.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Models/stone_path_1.blend" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Models/stone_path_1.blend.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Models/stone_pillar_1.blend" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Models/stone_pillar_1.blend.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Models/stone_pillar_1_ruined.blend" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Models/stone_wall_1.blend" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Models/stone_wall_1.blend.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Models/stone_wall_1_no_top.blend" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Models/stone_wall_door.blend" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Models/stone_wall_ruined_1.blend" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Models/stone_wall_ruined_2.blend" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Models/stone_wall_ruined_3.blend" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Prototype/Player.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/Prototype/Player.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/Sandbox.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/Sandbox.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Models/stone_pillar_1_ruined.blend.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Models/stone_wall_1_no_top.blend.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Models/stone_wall_door.blend.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Models/stone_wall_ruined_1.blend.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Models/stone_wall_ruined_2.blend.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Models/stone_wall_ruined_3.blend.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProjectSettings/EditorBuildSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/EditorBuildSettings.asset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ProjectSettings/EntitiesClientSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/EntitiesClientSettings.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ProjectSettings/URPProjectSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/URPProjectSettings.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProjectSettings/ShaderGraphSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/ShaderGraphSettings.asset" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -57,7 +45,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
     "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "chore/import-blender-assets",
+    "git-widget-placeholder": "SCRUM-24-Main-Menu",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -72,7 +60,7 @@
 }]]></component>
   <component name="RunManager" selected="Attach to Unity Editor.Attach to Unity Editor">
     <configuration name="Start Unity" type="RunUnityExe" factoryName="Unity Executable">
-      <option name="EXE_PATH" value="D:\Unity\6000.3.0f1\Editor\Unity.exe" />
+      <option name="EXE_PATH" value="D:\Unity\6000.3.7f1\Editor\Unity.exe" />
       <option name="PROGRAM_PARAMETERS" value="-projectPath D:\code\unity\EchoIsles -debugCodeOptimization" />
       <option name="WORKING_DIRECTORY" value="D:\code\unity\EchoIsles" />
       <option name="PASS_PARENT_ENVS" value="1" />
@@ -84,7 +72,7 @@
       <method v="2" />
     </configuration>
     <configuration name="Unit Tests (batch mode)" type="RunUnityExe" factoryName="Unity Executable">
-      <option name="EXE_PATH" value="D:\Unity\6000.3.0f1\Editor\Unity.exe" />
+      <option name="EXE_PATH" value="D:\Unity\6000.3.7f1\Editor\Unity.exe" />
       <option name="PROGRAM_PARAMETERS" value="-runTests -batchmode -projectPath D:\code\unity\EchoIsles -testResults Logs/results.xml -logFile Logs/Editor.log -testPlatform EditMode -debugCodeOptimization" />
       <option name="WORKING_DIRECTORY" value="D:\code\unity\EchoIsles" />
       <option name="PASS_PARENT_ENVS" value="1" />
