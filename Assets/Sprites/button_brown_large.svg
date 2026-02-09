@@ -1,0 +1,12 @@
+<svg width="96" height="36" viewBox="0 0 96 36" xmlns="http://www.w3.org/2000/svg">
+  <g>
+    <path stroke="none" fill="#6D4B27" d="M0 31.35 L0 31 0 5 Q0 0 5 0 L10 0 Q10.85 0 11.45 0.6 L12 1.15 12.6 0.6 Q13.15 0 14 0 L91 0 Q96 0 96 5 L96 31 96 31.35 96 31.5 Q95.8 36 91 36 L86 36 Q85.15 36 84.6 35.45 L84 34.85 83.45 35.45 Q82.85 36 82 36 L5 36 Q0.2 36 0 31.5 L0 31.35 M84 32 L86 34 91 34 Q93.85 34 94 31.35 L94 31 94 5 Q94 2 91 2 L14 2 12 4 10 2 5 2 Q2 2 2 5 L2 31 2 31.35 Q2.15 34 5 34 L82 34 84 32"/>
+    
+    <path stroke="none" fill="#B47B41" d="M84 32 L91.05 32 Q92 31.95 92 31 L92 5 Q92 4 91 4 L12 4 14 2 91 2 Q94 2 94 5 L94 31 94 31.35 Q93.85 34 91 34 L86 34 84 32 82 34 5 34 Q2.15 34 2 31.35 L2 31 2 5 Q2 2 5 2 L10 2 12 4 5 4 Q4 4 4 5 L4 31 Q4 31.95 4.95 32 L84 32"/>
+    
+    <path stroke="none" fill="#FFF1D2" d="M84 32 L4.95 32 Q4 31.95 4 31 L4 5 Q4 4 5 4 L12 4 91 4 Q92 4 92 5 L92 31 Q92 31.95 91.05 32 L84 32"/>
+    
+    <!-- <path fill="none" stroke="#B47B41" stroke-width="2" stroke-linecap="round" stroke-linejoin="miter" d="M48 18 L52 22 M48 18 L44 22 M44.15 14 L48 18"/>
+    <path fill="none" stroke="#B47B41" stroke-width="2" stroke-linecap="butt" stroke-linejoin="miter" d="M51.95 14 L48 18"/> -->
+  </g>
+</svg>
