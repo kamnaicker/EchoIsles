@@ -23,16 +23,22 @@ public class Replayer : MonoBehaviour
 	private GameObject _echoInstance = null;
 	private List<Vector3> _positions;
 	private ProgressBar _remainingEchoBar;
-	private VisualElement _replayIcon;
+	private Image _replayIcon;
+	private Image _recordIcon;
+	private Image _playIcon;
+	private VisualElement _echoBarContainer;
 
 	private void OnEnable()
 	{
 		VisualElement root = guiDocument.rootVisualElement;
-		_remainingEchoBar = root.Q<ProgressBar>("remaining-echo-bar");
-		_replayIcon = root.Q<VisualElement>("replay-icon");
 
-		_replayIcon.style.opacity = 0.5f;
-		_remainingEchoBar.style.opacity = 0.5f;
+		_echoBarContainer = root.Q<VisualElement>("replay-elements");
+		_remainingEchoBar = root.Q<ProgressBar>("remaining-echo-bar");
+		_replayIcon = root.Q<Image>("replay-icon");
+		_playIcon = root.Q<Image>("play-icon");
+		_recordIcon = root.Q<Image>("record-icon");
+
+		_echoBarContainer.style.opacity = 0.5f;
 
 		BindEchoProgressBarUI();
 	}
@@ -82,8 +88,9 @@ public class Replayer : MonoBehaviour
 			remainingDuration = 10f;
 			remainingDurationPercentage = 100f;
 
-			_replayIcon.style.opacity = 0.5f;
-			_remainingEchoBar.style.opacity = 0.5f;
+			_echoBarContainer.style.opacity = 0.5f;
+			_playIcon.style.display = DisplayStyle.None;
+			_replayIcon.style.display = DisplayStyle.Flex;
 
 			if (_echoInstance is not null)
 			{
@@ -118,20 +125,17 @@ public class Replayer : MonoBehaviour
 	{
 		isRecordingAvailable = isAvailable;
 		if (isAvailable)
-		{
-			_replayIcon.style.opacity = 1f;
-			_remainingEchoBar.style.opacity = 1f;
-		}
-		else if (!recording)
-		{
-			_replayIcon.style.opacity = 0.5f;
-			_remainingEchoBar.style.opacity = 0.5f;
-		}
+			_echoBarContainer.style.opacity = 1f;
+		else if (!recording) _echoBarContainer.style.opacity = 0.5f;
 	}
 
 	public void OnRecord()
 	{
 		Debug.Log("Record");
+
+		_replayIcon.style.display = DisplayStyle.None;
+		_recordIcon.style.display = DisplayStyle.Flex;
+
 
 		if (!recording && isRecordingAvailable)
 		{
@@ -145,6 +149,9 @@ public class Replayer : MonoBehaviour
 	public void OnReplay()
 	{
 		Debug.Log("Replay");
+
+		_recordIcon.style.display = DisplayStyle.None;
+		_playIcon.style.display = DisplayStyle.Flex;
 
 		if (!recording) replaying = true;
 	}

@@ -1,0 +1,19 @@
+<svg width="50" height="50" viewBox="0 0 50 50" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <clipPath id="shadowClip">
+      <circle cx="25" cy="25" r="24" />
+    </clipPath>
+  </defs>
+
+  <circle cx="25" cy="25" r="24" fill="#B5B5B5" />
+
+  <circle cx="23" cy="23" r="24" fill="#EDEDED" clip-path="url(#shadowClip)" />
+
+  <g transform="translate(11, 11)">
+  <circle transform="translate(1, 1)" cx="12" cy="12" r="8" fill="#C93838"></circle>
+
+  <circle cx="12" cy="12" r="8" fill="#F04F4F"></circle>
+  </g>
+</svg>
+
+<!-- #BFBFBF -->
