@@ -4,7 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="64b8dda1-a6d0-4df8-9fca-d9daa9b79f13" name="Changes" comment="" />
+    <list default="true" id="64b8dda1-a6d0-4df8-9fca-d9daa9b79f13" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Main Camera.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/Main Camera.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/Sandbox.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/Sandbox.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Replayer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Replayer.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/UI/HUD.uss" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/UI/HUD.uss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/UI/HUD.uxml" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/UI/HUD.uxml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -14,7 +20,7 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.render-pipelines.universal@d9aadd996b24/Shaders/Lit.shader" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.render-pipelines.universal@a6e30d1f59f5/Shaders/Terrain/TerrainLit.shader" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="MetaFilesCheckinStateConfiguration" checkMetaFiles="true" />
   <component name="ProblemsViewState">
@@ -34,7 +40,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
     "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "main",
+    "git-widget-placeholder": "SCRUM-26-HUD",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -129,6 +135,7 @@
       <workItem from="1769356905741" duration="4593000" />
       <workItem from="1770057585047" duration="588000" />
       <workItem from="1770457761912" duration="1964000" />
+      <workItem from="1770755304149" duration="728000" />
     </task>
     <servers />
   </component>
