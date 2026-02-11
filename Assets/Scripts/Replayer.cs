@@ -28,6 +28,10 @@ public class Replayer : MonoBehaviour
 	private Image _playIcon;
 	private VisualElement _echoBarContainer;
 
+	private VisualElement _recordButtonHint;
+	private VisualElement _replayButtonHint;
+
+
 	private void OnEnable()
 	{
 		VisualElement root = guiDocument.rootVisualElement;
@@ -38,7 +42,12 @@ public class Replayer : MonoBehaviour
 		_playIcon = root.Q<Image>("play-icon");
 		_recordIcon = root.Q<Image>("record-icon");
 
+		_recordButtonHint = root.Q<VisualElement>("record-button");
+		_replayButtonHint = root.Q<VisualElement>("replay-button");
+
 		_echoBarContainer.style.opacity = 0.5f;
+		_recordButtonHint.style.opacity = 0.5f;
+		_replayButtonHint.style.opacity = 0.5f;
 
 		BindEchoProgressBarUI();
 	}
@@ -89,6 +98,9 @@ public class Replayer : MonoBehaviour
 			remainingDurationPercentage = 100f;
 
 			_echoBarContainer.style.opacity = 0.5f;
+			_recordButtonHint.style.opacity = 0.5f;
+			_replayButtonHint.style.opacity = 0.5f;
+
 			_playIcon.style.display = DisplayStyle.None;
 			_replayIcon.style.display = DisplayStyle.Flex;
 
@@ -125,8 +137,15 @@ public class Replayer : MonoBehaviour
 	{
 		isRecordingAvailable = isAvailable;
 		if (isAvailable)
+		{
 			_echoBarContainer.style.opacity = 1f;
-		else if (!recording) _echoBarContainer.style.opacity = 0.5f;
+			_recordButtonHint.style.opacity = 1f;
+		}
+		else if (!recording)
+		{
+			_recordButtonHint.style.opacity = 0.5f;
+			_echoBarContainer.style.opacity = 0.5f;
+		}
 	}
 
 	public void OnRecord()
@@ -143,7 +162,11 @@ public class Replayer : MonoBehaviour
 			return;
 		}
 
-		if (recording) recording = false;
+		if (recording)
+		{
+			recording = false;
+			_replayButtonHint.style.opacity = 1f;
+		}
 	}
 
 	public void OnReplay()
@@ -153,6 +176,10 @@ public class Replayer : MonoBehaviour
 		_recordIcon.style.display = DisplayStyle.None;
 		_playIcon.style.display = DisplayStyle.Flex;
 
-		if (!recording) replaying = true;
+		if (!recording)
+		{
+			replaying = true;
+			_replayButtonHint.style.opacity = 0.5f;
+		}
 	}
 }
