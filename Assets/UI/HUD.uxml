@@ -1,9 +1,54 @@
 <ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
-    <Style src="project://database/Assets/UI/HUD.uss?fileID=7433441132597879392&amp;guid=f23a6309346c8bf47a40aac60c88c900&amp;type=3#HUD" />
+    <Style src="project://database/Assets/UI/HUD.uss?fileID=7433441132597879392&amp;guid=f23a6309346c8bf47a40aac60c88c900&amp;type=3#HUD"/>
     <ui:VisualElement name="container" style="flex-grow: 1;">
-        <ui:VisualElement name="replay-elements" style="flex-grow: 1; position: absolute; left: 30px; bottom: 30px; flex-direction: row; align-items: center;">
-            <ui:VisualElement name="replay-icon" style="flex-grow: 1; background-image: url(&quot;project://database/Assets/Sprites/return.png?fileID=2800000&amp;guid=54004694787fba048a8ec620fe495729&amp;type=3#return&quot;); min-width: 70px; max-width: none; min-height: 70px; -unity-background-image-tint-color: rgb(97, 203, 255); margin-right: 10px;" />
-            <ui:ProgressBar value="100" name="remaining-echo-bar" style="background-color: rgba(0, 0, 0, 0); -unity-background-image-tint-color: rgb(255, 255, 255); width: 235px; transform-origin: center; position: relative; left: auto; bottom: auto;" />
+        <ui:VisualElement style="flex-grow: 1; left: 50px; bottom: 50px; position: absolute;">
+            <ui:VisualElement name="record-button" style="flex-grow: 1; flex-direction: row; margin-bottom: 6px; margin-left: -25px; -unity-font-style: normal;">
+                <ui:Image source="project://database/Assets/Sprites/key_dark.svg?fileID=7388822144124034973&amp;guid=b5d8416a0bb20364a9f930da45f94a38&amp;type=3#key_dark" style="align-items: center; justify-content: center; align-self: auto; height: 46px; width: 49px;">
+                    <ui:Label text="E" style="color: rgb(255, 241, 210); -unity-text-align: middle-left; align-items: center; justify-content: center; align-self: center; margin-left: 6px; margin-bottom: 4px; -unity-font-style: bold; font-size: 26px;"/>
+                </ui:Image>
+                <ui:Label text="Record" style="-unity-text-outline-width: 3px; -unity-text-outline-color: rgb(109, 75, 39); color: rgb(255, 241, 210); font-size: 24px; margin-top: 4px; -unity-font-style: bold;">
+                    <ui:Label text="Record" name="Label" style="-unity-text-outline-width: 0; -unity-text-outline-color: rgb(109, 75, 39); color: rgb(255, 241, 210); position: absolute; top: 0; left: 0; right: 0; bottom: 0; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0;"/>
+                </ui:Label>
+            </ui:VisualElement>
+            <ui:VisualElement name="replay-button" style="flex-grow: 1; flex-direction: row; margin-bottom: 30px; margin-left: -25px;">
+                <ui:Image source="project://database/Assets/Sprites/key_light.svg?fileID=7388822144124034973&amp;guid=09bb67fc7ff2cd445b948e37608d16ec&amp;type=3#key_light" style="align-items: center; justify-content: center; align-self: auto; height: 46px; width: 49px;">
+                    <ui:Label text="R" style="color: rgb(109, 75, 39); -unity-text-align: middle-left; align-items: center; justify-content: center; align-self: center; margin-left: 6px; margin-bottom: 4px; -unity-font-style: bold; font-size: 26px;"/>
+                </ui:Image>
+                <ui:Label text="Replay" style="-unity-text-outline-width: 3px; -unity-text-outline-color: rgb(109, 75, 39); color: rgb(255, 241, 210); font-size: 24px; margin-top: 4px; -unity-font-style: bold;">
+                    <ui:Label text="Replay" name="Label" style="-unity-text-outline-width: 0; -unity-text-outline-color: rgb(109, 75, 39); color: rgb(255, 241, 210); position: absolute; top: 0; left: 0; right: 0; bottom: 0; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0;"/>
+                </ui:Label>
+            </ui:VisualElement>
+            <ui:VisualElement name="replay-elements" style="flex-grow: 1; position: relative; left: auto; bottom: auto; flex-direction: row-reverse; align-items: center;">
+                <ui:ProgressBar value="100" name="remaining-echo-bar" style="background-color: rgba(0, 0, 0, 0); -unity-background-image-tint-color: rgb(255, 255, 255); width: 235px; transform-origin: center; position: relative; left: auto; bottom: auto; height: auto; background-image: url(&quot;project://database/Assets/Sprites/progress_bar_empty.svg?fileID=7388822144124034973&amp;guid=b00a291146ce54142a3d50ab075b20ef&amp;type=3#progress_bar_empty&quot;); margin-left: 15px; margin-top: 20px;"/>
+                <ui:Image source="project://database/Assets/Sprites/round_brown.svg?fileID=7388822144124034973&amp;guid=389140ff0ea0a9747847edca5f1a8cae&amp;type=3#round_brown" style="scale: 2 2; background-image: url(&quot;project://database/Assets/Sprites/round_damaged_brown.svg?fileID=7388822144124034973&amp;guid=64dd00e655c7aef479a858ddc9bf38dd&amp;type=3#round_damaged_brown&quot;);">
+                    <ui:Image source="project://database/Assets/Sprites/replay_blue.svg?fileID=7388822144124034973&amp;guid=6629d4be683b940479374fbca713c70b&amp;type=3#replay_blue" name="replay-icon" style="scale: 0.5 0.5; display: flex;"/>
+                    <ui:Image source="project://database/Assets/Sprites/record.svg?fileID=7388822144124034973&amp;guid=cc11aa5f09f0379408a0b6f3188b0b4f&amp;type=3#record" name="record-icon" enabled="true" style="scale: 0.5 0.5; display: none;"/>
+                    <ui:Image source="project://database/Assets/Sprites/play_green.svg?fileID=7388822144124034973&amp;guid=23d40a4617a46854895e29598c3413af&amp;type=3#play_green" name="play-icon" style="scale: 0.5 0.5; display: none;"/>
+                </ui:Image>
+            </ui:VisualElement>
+        </ui:VisualElement>
+        <ui:VisualElement style="flex-grow: 1; position: absolute; top: auto; left: auto; right: 30px; bottom: 40px;">
+            <ui:VisualElement style="flex-grow: 1; flex-direction: column; margin-bottom: 6px; margin-left: -25px; align-items: center;">
+                <ui:VisualElement style="flex-grow: 1; flex-direction: column;">
+                    <ui:Image source="project://database/Assets/Sprites/key_dark.svg?fileID=7388822144124034973&amp;guid=b5d8416a0bb20364a9f930da45f94a38&amp;type=3#key_dark" style="align-items: center; justify-content: center; align-self: center; height: 46px; width: 49px; margin-bottom: 4px;">
+                        <ui:Label text="W" style="color: rgb(255, 241, 210); -unity-text-align: middle-left; align-items: center; justify-content: center; align-self: center; margin-left: 6px; margin-bottom: 4px; -unity-font-style: bold; font-size: 26px;"/>
+                    </ui:Image>
+                    <ui:VisualElement style="flex-grow: 1; flex-direction: row;">
+                        <ui:Image source="project://database/Assets/Sprites/key_dark.svg?fileID=7388822144124034973&amp;guid=b5d8416a0bb20364a9f930da45f94a38&amp;type=3#key_dark" name="Image" style="align-items: center; justify-content: center; align-self: auto; height: 46px; width: 49px;">
+                            <ui:Label text="A" style="color: rgb(255, 241, 210); -unity-text-align: middle-left; align-items: center; justify-content: center; align-self: center; margin-left: 6px; margin-bottom: 4px; -unity-font-style: bold; font-size: 26px;"/>
+                        </ui:Image>
+                        <ui:Image source="project://database/Assets/Sprites/key_dark.svg?fileID=7388822144124034973&amp;guid=b5d8416a0bb20364a9f930da45f94a38&amp;type=3#key_dark" style="align-items: center; justify-content: center; align-self: auto; height: 46px; width: 49px;">
+                            <ui:Label text="S" style="color: rgb(255, 241, 210); -unity-text-align: middle-left; align-items: center; justify-content: center; align-self: center; margin-left: 6px; margin-bottom: 4px; -unity-font-style: bold; font-size: 26px;"/>
+                        </ui:Image>
+                        <ui:Image source="project://database/Assets/Sprites/key_dark.svg?fileID=7388822144124034973&amp;guid=b5d8416a0bb20364a9f930da45f94a38&amp;type=3#key_dark" style="align-items: center; justify-content: center; align-self: auto; height: 46px; width: 49px;">
+                            <ui:Label text="D" style="color: rgb(255, 241, 210); -unity-text-align: middle-left; align-items: center; justify-content: center; align-self: center; margin-left: 6px; margin-bottom: 4px; -unity-font-style: bold; font-size: 26px;"/>
+                        </ui:Image>
+                    </ui:VisualElement>
+                </ui:VisualElement>
+                <ui:Label text="Movement" name="Label" style="-unity-text-outline-width: 3px; -unity-text-outline-color: rgb(109, 75, 39); color: rgb(255, 241, 210); font-size: 24px; margin-top: 0; align-self: center; align-content: auto; justify-content: center; align-items: auto; margin-left: -120px; -unity-font-style: bold;">
+                    <ui:Label text="Movement" name="Label" style="-unity-text-outline-width: 0; -unity-text-outline-color: rgb(109, 75, 39); color: rgb(255, 241, 210); position: absolute; top: 0; left: 0; right: 0; bottom: 0; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0;"/>
+                </ui:Label>
+            </ui:VisualElement>
         </ui:VisualElement>
     </ui:VisualElement>
 </ui:UXML>
