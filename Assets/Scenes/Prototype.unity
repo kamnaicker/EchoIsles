@@ -4233,9 +4233,6 @@ SceneRoots:
   - {fileID: 3410320683225072249}
   - {fileID: 844577522}
   - {fileID: 1201512872}
-<<<<<<< HEAD
   - {fileID: 9090486235357827060}
-=======
   - {fileID: 193163192}
   - {fileID: 1016278367}
->>>>>>> ea6e2d5 (Add manager stub scripts and place Managers in Prototype Scene)
