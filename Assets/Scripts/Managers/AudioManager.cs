@@ -6,6 +6,8 @@ public class AudioManager : MonoBehaviour
     public MusicTrack MusicTrack;
     public AudioState State;
     public event System.Action<AudioState> OnMusicChanged;
+    private bool _isSubscribedToGameManager;
+    private bool _isSubscribedToPuzzleManager;
 
     void Awake()
     {
@@ -20,19 +22,69 @@ public class AudioManager : MonoBehaviour
 
     void OnEnable()
     {
-        if(GameManager.Instance != null)
-            GameManager.Instance.OnGameStateChanged += HandleGameStateChanged;
-        if(PuzzleManager.Instance != null)
-            PuzzleManager.Instance.OnPuzzleStateChanged += HandlePuzzleStateChanged;
-    }   
+        Debug.Log("AudioManager enabled, trying to subscribe to GameManager and PuzzleManager events.");
+        Debug.Log($"Trying to subscribe to GameManager events. Result is: {_isSubscribedToGameManager}");
+        TrySubscribeToGameManager();
+        Debug.Log($"Trying to subscribe to GameManager events. Result is: {_isSubscribedToGameManager}");
+        Debug.Log($"Trying to subscribe to PuzzleManager events. Result is: {_isSubscribedToPuzzleManager}");
+        TrySubscribeToPuzzleManager();
+        Debug.Log($"Trying to subscribe to PuzzleManager events. Result is: {_isSubscribedToPuzzleManager}");
+    }
+
+    private void Start()
+    {
+        Debug.Log("AudioManager started, trying to subscribe to GameManager and PuzzleManager events.");
+        Debug.Log($"Trying to subscribe to GameManager events. Result is: {_isSubscribedToGameManager}");
+        TrySubscribeToGameManager();
+        Debug.Log($"Trying to subscribe to GameManager events. Result is: {_isSubscribedToGameManager}");
+        Debug.Log($"Trying to subscribe to PuzzleManager events. Result is: {_isSubscribedToPuzzleManager}");
+        TrySubscribeToPuzzleManager();
+        Debug.Log($"Trying to subscribe to PuzzleManager events. Result is: {_isSubscribedToPuzzleManager}");
+    }
 
     void OnDisable()
     {
-        
-        if(GameManager.Instance != null)
+        Debug.Log("AudioManager disabled, unsubscribing from GameManager and PuzzleManager events.");
+
+        if (_isSubscribedToGameManager && GameManager.Instance != null)
             GameManager.Instance.OnGameStateChanged -= HandleGameStateChanged;
-        if(PuzzleManager.Instance != null)
+
+        if(_isSubscribedToPuzzleManager && PuzzleManager.Instance != null)
             PuzzleManager.Instance.OnPuzzleStateChanged -= HandlePuzzleStateChanged;
+
+        _isSubscribedToGameManager = false;
+        _isSubscribedToPuzzleManager = false;
+    }
+
+    private void TrySubscribeToGameManager()
+    {
+        if (_isSubscribedToGameManager || GameManager.Instance == null)
+            return;
+
+        GameManager.Instance.OnGameStateChanged += HandleGameStateChanged;
+        _isSubscribedToGameManager = true;
+        Debug.Log("AudioManager subscribed to GameManager.OnGameStateChanged.");
+
+        if (GameManager.Instance.HasStateInitialized)
+        {
+            Debug.Log($"AudioManager late-syncing to current GameState: {GameManager.Instance.State}");
+            HandleGameStateChanged(GameManager.Instance.State);
+        }
+    }
+    private void TrySubscribeToPuzzleManager()
+    {
+        if (_isSubscribedToPuzzleManager || PuzzleManager.Instance == null)
+            return;
+
+        PuzzleManager.Instance.OnPuzzleStateChanged += HandlePuzzleStateChanged;
+        _isSubscribedToPuzzleManager = true;
+        Debug.Log("AudioManager subscribed to PuzzleManager.OnPuzzleStateChanged.");
+
+        if (PuzzleManager.Instance.HasStateInitialized)
+        {
+            Debug.Log($"AudioManager late-syncing to current PuzzleState: {PuzzleManager.Instance.State}");
+            HandlePuzzleStateChanged(PuzzleManager.Instance.State);
+        }
     }
 
     public void UpdateAudioState(AudioState newAudioState)
@@ -66,6 +118,7 @@ public class AudioManager : MonoBehaviour
 
     public void HandlePuzzleStateChanged(IPuzzle.PuzzleState newState)
     {
+        Debug.Log($"AudioManager received PuzzleState: {newState}");
         switch (newState)
         {
             case IPuzzle.PuzzleState.Unsolved:
@@ -82,6 +135,7 @@ public class AudioManager : MonoBehaviour
 
     public void HandleGameStateChanged(GameState newState)
     {
+        Debug.Log($"AudioManager received GameState: {newState}");
         switch (newState)
         {
             case GameState.Initialisation:
@@ -112,8 +166,9 @@ public class AudioManager : MonoBehaviour
                 break;
         }
     }
+    
 
-    public void PlayMenuMusic()
+public void PlayMenuMusic()
     {
         Debug.Log("Playing menu music");
     }
@@ -128,12 +183,13 @@ public class AudioManager : MonoBehaviour
     }
 }
 
+    
+
 public enum MusicTrack
 {
     None,
     MainMenu,
     Gameplay,
-    Boss,
     Victory,
     GameOver,
     Credits,

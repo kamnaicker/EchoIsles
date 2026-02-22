@@ -5,6 +5,7 @@ public class InteractionManager : MonoBehaviour
     public static InteractionManager Instance;
     public InteractionState State;
     public event System.Action<InteractionState> OnInteractionStateChanged;
+    private bool _isSubscribedToGameManager;
 
     void Awake()
     {
@@ -19,14 +20,48 @@ public class InteractionManager : MonoBehaviour
 
     private void OnEnable()
     {
-        if (GameManager.Instance != null)
-            GameManager.Instance.OnGameStateChanged += HandleGameStateChanged;
+        Debug.Log("InteractionManager OnEnable -> attempting GameManager subscription.");
+        TrySubscribeToGameManager();
+    }
+
+    private void Start()
+    {
+        Debug.Log("InteractionManager Start -> retrying GameManager subscription.");
+        TrySubscribeToGameManager();
     }
 
     private void OnDisable()
     {
-        if (GameManager.Instance != null)
+        Debug.Log($"InteractionManager OnDisable -> subscribed={_isSubscribedToGameManager}");
+        if (_isSubscribedToGameManager && GameManager.Instance != null)
             GameManager.Instance.OnGameStateChanged -= HandleGameStateChanged;
+
+        _isSubscribedToGameManager = false;
+    }
+
+    private void TrySubscribeToGameManager()
+    {
+        if (_isSubscribedToGameManager)
+        {
+            Debug.Log("InteractionManager subscription skipped (already subscribed).");
+            return;
+        }
+
+        if (GameManager.Instance == null)
+        {
+            Debug.Log("InteractionManager subscription deferred (GameManager.Instance is null).");
+            return;
+        }
+
+        GameManager.Instance.OnGameStateChanged += HandleGameStateChanged;
+        _isSubscribedToGameManager = true;
+        Debug.Log("InteractionManager subscribed to GameManager.OnGameStateChanged.");
+
+        if (GameManager.Instance.HasStateInitialized)
+        {
+            Debug.Log($"InteractionManager late-syncing to current GameState: {GameManager.Instance.State}");
+            HandleGameStateChanged(GameManager.Instance.State);
+        }
     }
 
     public void UpdateInteractionState(InteractionState newInteractionState)
@@ -55,6 +90,7 @@ public class InteractionManager : MonoBehaviour
 
     public void HandleGameStateChanged(GameState newState)
     {
+        Debug.Log($"InteractionManager received GameState: {newState}");
         switch (newState)
         {
             case GameState.Initialisation:

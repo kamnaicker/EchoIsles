@@ -6,6 +6,8 @@ public class PuzzleManager : MonoBehaviour
     public IPuzzle.PuzzleState State { get; set; }
 
     public event System.Action<IPuzzle.PuzzleState> OnPuzzleStateChanged;
+    private bool _isSubscribedToGameManager;
+    public bool HasStateInitialized { get; private set; }
 
     private void Awake()
     {
@@ -19,16 +21,25 @@ public class PuzzleManager : MonoBehaviour
 
     }
 
-    public void OnEnable()
+    private void OnEnable()
     {
-        if (GameManager.Instance != null)
-            GameManager.Instance.OnGameStateChanged += HandleGameStateChanged;
+        Debug.Log("PuzzleManager OnEnable -> attempting GameManager subscription.");
+        TrySubscribeToGameManager();
     }
 
-    public void OnDisable()
+    private void Start()
     {
-        if (GameManager.Instance != null)
+        Debug.Log("PuzzleManager Start -> retrying GameManager subscription.");
+        TrySubscribeToGameManager();
+    }
+
+    private void OnDisable()
+    {
+        Debug.Log($"PuzzleManager OnDisable -> subscribed={_isSubscribedToGameManager}");
+        if (_isSubscribedToGameManager && GameManager.Instance != null)
             GameManager.Instance.OnGameStateChanged -= HandleGameStateChanged;
+
+        _isSubscribedToGameManager = false;
     }
 
     public void UpdatePuzzleState(IPuzzle.PuzzleState newPuzzleState)
@@ -47,13 +58,14 @@ public class PuzzleManager : MonoBehaviour
                 // Handle in-progress-specific logic here if needed
                 break;
         }
-
+        HasStateInitialized = true;
         OnPuzzleStateChanged?.Invoke(State);
         Debug.Log($"Puzzle state updated to: {State}");
     }    
 
     public void HandleGameStateChanged(GameState newState)
     {
+        Debug.Log($"PuzzleManager received GameState: {newState}");
         switch (newState)
         {
             case GameState.Initialisation:
@@ -82,6 +94,31 @@ public class PuzzleManager : MonoBehaviour
                 break;
             default:
                 break;
+        }
+    }
+
+    private void TrySubscribeToGameManager()
+    {
+        if (_isSubscribedToGameManager)
+        {
+            Debug.Log("PuzzleManager subscription skipped (already subscribed).");
+            return;
+        }
+
+        if (GameManager.Instance == null)
+        {
+            Debug.Log("PuzzleManager subscription deferred (GameManager.Instance is null).");
+            return;
+        }
+
+        GameManager.Instance.OnGameStateChanged += HandleGameStateChanged;
+        _isSubscribedToGameManager = true;
+        Debug.Log("PuzzleManager subscribed to GameManager.OnGameStateChanged.");
+
+        if (GameManager.Instance.HasStateInitialized)
+        {
+            Debug.Log($"PuzzleManager late-syncing to current GameState: {GameManager.Instance.State}");
+            HandleGameStateChanged(GameManager.Instance.State);
         }
     }
 

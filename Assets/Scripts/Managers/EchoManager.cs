@@ -6,6 +6,7 @@ public class EchoManager : MonoBehaviour
     public static EchoManager Instance;
     public EchoState State;
     public event Action<EchoState> OnEchoStateChanged;
+    private bool _isSubscribedToGameManager;
 
     void Awake()
     {
@@ -20,14 +21,48 @@ public class EchoManager : MonoBehaviour
 
     private void OnEnable()
     {
-        if (GameManager.Instance != null)
-            GameManager.Instance.OnGameStateChanged += HandleGameStateChanged;
+        Debug.Log("EchoManager OnEnable -> attempting GameManager subscription.");
+        TrySubscribeToGameManager();
+    }
+
+    private void Start()
+    {
+        Debug.Log("EchoManager Start -> retrying GameManager subscription.");
+        TrySubscribeToGameManager();
     }
 
     private void OnDisable()
     {
-        if(GameManager.Instance != null)
+        Debug.Log($"EchoManager OnDisable -> subscribed={_isSubscribedToGameManager}");
+        if (_isSubscribedToGameManager && GameManager.Instance != null)
             GameManager.Instance.OnGameStateChanged -= HandleGameStateChanged;
+
+        _isSubscribedToGameManager = false;
+    }
+
+    private void TrySubscribeToGameManager()
+    {
+        if (_isSubscribedToGameManager)
+        {
+            Debug.Log("EchoManager subscription skipped (already subscribed).");
+            return;
+        }
+
+        if (GameManager.Instance == null)
+        {
+            Debug.Log("EchoManager subscription deferred (GameManager.Instance is null).");
+            return;
+        }
+
+        GameManager.Instance.OnGameStateChanged += HandleGameStateChanged;
+        _isSubscribedToGameManager = true;
+        Debug.Log("EchoManager subscribed to GameManager.OnGameStateChanged.");
+
+        if (GameManager.Instance.HasStateInitialized)
+        {
+            Debug.Log($"EchoManager late-syncing to current GameState: {GameManager.Instance.State}");
+            HandleGameStateChanged(GameManager.Instance.State);
+        }
     }
 
     public void UpdateEchoState(EchoState newEchoState)
@@ -60,6 +95,7 @@ public class EchoManager : MonoBehaviour
 
     public void HandleGameStateChanged(GameState newState)
     {
+        Debug.Log($"EchoManager received GameState: {newState}");
         switch (newState)
         {
             case GameState.Initialisation:
