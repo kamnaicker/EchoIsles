@@ -7,6 +7,8 @@ public class PlayerManager : MonoBehaviour
     public PlayerState State;
 
     public event System.Action<PlayerState> OnPlayerStateChanged;
+
+    private bool _isSubscribedToGameManager;
     void Awake()
     {
         if (Instance == null)
@@ -20,14 +22,48 @@ public class PlayerManager : MonoBehaviour
 
     private void OnEnable()
     {
-        if (GameManager.Instance != null)
-            GameManager.Instance.OnGameStateChanged += HandleGameStateChanged;
+        Debug.Log("PlayerManager OnEnable -> attempting GameManager subscription.");
+        TrySubscribeToGameManager();
+    }
+
+    private void Start()
+    {
+        Debug.Log("PlayerManager Start -> retrying GameManager subscription.");
+        TrySubscribeToGameManager();
     }
 
     private void OnDisable()
     {
-        if (GameManager.Instance != null)
+        Debug.Log($"PlayerManager OnDisable -> subscribed={_isSubscribedToGameManager}");
+        if (_isSubscribedToGameManager && GameManager.Instance != null)
             GameManager.Instance.OnGameStateChanged -= HandleGameStateChanged;
+
+        _isSubscribedToGameManager = false;
+    }
+
+    private void TrySubscribeToGameManager()
+    {
+        if (_isSubscribedToGameManager)
+        {
+            Debug.Log("PlayerManager subscription skipped (already subscribed).");
+            return;
+        }
+
+        if (GameManager.Instance == null)
+        {
+            Debug.Log("PlayerManager subscription deferred (GameManager.Instance is null).");
+            return;
+        }
+
+        GameManager.Instance.OnGameStateChanged += HandleGameStateChanged;
+        _isSubscribedToGameManager = true;
+        Debug.Log("PlayerManager subscribed to GameManager.OnGameStateChanged.");
+
+        if (GameManager.Instance.HasStateInitialized)
+        {
+            Debug.Log($"PlayerManager late-syncing to current GameState: {GameManager.Instance.State}");
+            HandleGameStateChanged(GameManager.Instance.State);
+        }
     }
 
     public void UpdatePlayerState(PlayerState newPlayerState)
@@ -66,6 +102,7 @@ public class PlayerManager : MonoBehaviour
 
     public void HandleGameStateChanged(GameState newState)
     {
+        Debug.Log($"PlayerManager received GameState: {newState}");
         switch (newState)
         {
             case GameState.Initialisation:

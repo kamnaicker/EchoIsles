@@ -6,6 +6,7 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance;
     // Current game state
     public GameState State;
+    public bool HasStateInitialized { get; private set; }
     // Event for game state changes
     public event System.Action<GameState> OnGameStateChanged;
 
@@ -24,18 +25,20 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
+        Debug.Log("GameManager boot sequence starting.");
         UpdateGameState(GameState.Initialisation);
+        UpdateGameState(GameState.Menu);
     }
 
     public void UpdateGameState(GameState newState)
     {
+        Debug.Log($"GameManager transitioning to {newState}.");
         State = newState;
 
         switch (newState)
         {
             case GameState.Initialisation:
                 Debug.Log("Game Initialising...");
-                UpdateGameState(GameState.Menu);
                 break;
             case GameState.Menu:
                 // Handle menu logic
@@ -62,7 +65,9 @@ public class GameManager : MonoBehaviour
                 Debug.LogError("Unhandled game state: " + newState.ToString());
                 break;
         }
+        HasStateInitialized = true;
         //Guard against null error when events not subscribed
+        Debug.Log($"GameManager broadcasting state change: {newState}");
         OnGameStateChanged?.Invoke(newState);
         Debug.Log("Game State updated to: " + newState.ToString());
     }
