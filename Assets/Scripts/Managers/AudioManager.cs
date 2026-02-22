@@ -64,14 +64,14 @@ public class AudioManager : MonoBehaviour
         Debug.Log($"Audio state updated to: {State}");
     }
 
-    public void HandlePuzzleStateChanged(PuzzleState newState)
+    public void HandlePuzzleStateChanged(IPuzzle.PuzzleState newState)
     {
         switch (newState)
         {
-            case PuzzleState.Unsolved:
+            case IPuzzle.PuzzleState.Unsolved:
                 // Handle audio for unsolved puzzle
                 break;
-            case PuzzleState.Solved:
+            case IPuzzle.PuzzleState.Solved:
                 // Handle audio for solved puzzle
                 PlayPuzzleSolvedMusic();
                 break;
