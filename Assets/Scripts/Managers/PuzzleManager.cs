@@ -3,8 +3,9 @@ using UnityEngine;
 public class PuzzleManager : MonoBehaviour
 {
     public static PuzzleManager Instance;
-    public PuzzleState puzzleState;
-    public event System.Action<PuzzleState> OnPuzzleStateChanged;
+    public IPuzzle.PuzzleState State { get; set; }
+
+    public event System.Action<IPuzzle.PuzzleState> OnPuzzleStateChanged;
 
     private void Awake()
     {
@@ -30,22 +31,25 @@ public class PuzzleManager : MonoBehaviour
             GameManager.Instance.OnGameStateChanged -= HandleGameStateChanged;
     }
 
-    public void UpdatePuzzleState(PuzzleState newPuzzleState)
+    public void UpdatePuzzleState(IPuzzle.PuzzleState newPuzzleState)
     {
-        puzzleState = newPuzzleState;
+        State = newPuzzleState;
 
         switch (newPuzzleState)
         {
-            case PuzzleState.Solved:
+            case IPuzzle.PuzzleState.Solved:
                 // Handle solved-specific logic here if needed
                 break;
-            case PuzzleState.Unsolved:
+            case IPuzzle.PuzzleState.Unsolved:
                 // Handle unsolved-specific logic here if needed
+                break;
+            case IPuzzle.PuzzleState.InProgress:
+                // Handle in-progress-specific logic here if needed
                 break;
         }
 
-        OnPuzzleStateChanged?.Invoke(puzzleState);
-        Debug.Log($"Puzzle state updated to: {puzzleState}");
+        OnPuzzleStateChanged?.Invoke(State);
+        Debug.Log($"Puzzle state updated to: {State}");
     }    
 
     public void HandleGameStateChanged(GameState newState)
@@ -80,11 +84,14 @@ public class PuzzleManager : MonoBehaviour
                 break;
         }
     }
-}
 
-public enum PuzzleState
-{
-    Solved,
-    Unsolved,
+    public void RegisterPuzzle(IPuzzle puzzle)
+    {
+        // TODO: Add logic to track registered puzzles
+    }
 
+    public void ResetAllPuzzles()
+    {
+        // TODO: Add logic to reset all registered puzzles to their initial state
+    }
 }
