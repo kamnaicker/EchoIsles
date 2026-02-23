@@ -46,12 +46,12 @@ public class TriggeredMovingObject : InteractiveObject
 		if (newPosition == _initialPosition) _direction = MoveDirection.None;
 	}
 
-	protected override void OnActivation()
+	protected override void OnActivation(InteractiveObjectTrigger trigger)
 	{
 		_direction = MoveDirection.Forward;
 	}
 
-	protected override void OnDeactivation()
+	protected override void OnDeactivation(InteractiveObjectTrigger trigger)
 	{
 		_direction = MoveDirection.Backward;
 	}
