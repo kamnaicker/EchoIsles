@@ -99,17 +99,15 @@ public class Player : MonoBehaviour
 		Vector3 inputMovement = _speed * Time.fixedDeltaTime * inputDirection.normalized;
 		Vector3 gravityMovement = new Vector3(0.0f, _verticalVelocity, 0.0f) * Time.fixedDeltaTime;
 
-		// // TODO: Fix platform behaviour
-		// Vector3 totalMovement = _parentPlatform && _controller.isGrounded
-		// 	? inputMovement + _platformMovement
-		// 	: inputMovement + gravityMovement;
+		// TODO: Fix platform behaviour
+		Vector3 totalMovement = _parentPlatform && _controller.isGrounded
+			? inputMovement + _platformMovement
+			: inputMovement + gravityMovement;
 
-		_controller.Move(inputMovement + gravityMovement);
+		_controller.Move(totalMovement);
 
 
 		Vector3 targetRotationDirection = _controller.velocity.normalized;
-		// Prevent rotation upwards/downwards
-		targetRotationDirection.y = 0;
 
 		if (targetRotationDirection == Vector3.zero) targetRotationDirection = transform.forward;
 

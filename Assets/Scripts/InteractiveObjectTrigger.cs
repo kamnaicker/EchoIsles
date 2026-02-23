@@ -4,18 +4,16 @@ using UnityEngine.Events;
 
 public class InteractiveObjectTrigger : MonoBehaviour
 {
-	public event Action<InteractiveObjectTrigger> OnActivation;
-	public event Action<InteractiveObjectTrigger> OnDeactivation;
-
-	public int Index;
+	public event Action OnActivation;
+	public event Action OnDeactivation;
 
 	protected void Activate()
 	{
-		OnActivation?.Invoke(this);
+		OnActivation?.Invoke();
 	}
 
 	protected void Deactivate()
 	{
-		OnDeactivation?.Invoke(this);
+		OnDeactivation?.Invoke();
 	}
 }

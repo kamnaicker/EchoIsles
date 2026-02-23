@@ -11,6 +11,6 @@ public abstract class InteractiveObject : MonoBehaviour
 		trigger.OnDeactivation += OnDeactivation;
 	}
 
-	protected abstract void OnActivation(InteractiveObjectTrigger trigger);
-	protected abstract void OnDeactivation(InteractiveObjectTrigger trigger);
+	protected abstract void OnActivation();
+	protected abstract void OnDeactivation();
 }

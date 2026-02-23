@@ -21,7 +21,6 @@ public class Replayer : MonoBehaviour
 	public bool isRecordingAvailable = false;
 
 	private GameObject _echoInstance = null;
-	private Vector3 _echoDefaultPosition = new(0, 100, 0);
 	private List<Vector3> _positions;
 	private ProgressBar _remainingEchoBar;
 	private Image _replayIcon;
@@ -65,7 +64,6 @@ public class Replayer : MonoBehaviour
 	{
 		DontDestroyOnLoad(gameObject);
 		_positions = new List<Vector3>();
-		_echoInstance = Instantiate(playerEchoPrefab, _echoDefaultPosition, Quaternion.identity);
 	}
 
 
@@ -106,10 +104,16 @@ public class Replayer : MonoBehaviour
 			_playIcon.style.display = DisplayStyle.None;
 			_replayIcon.style.display = DisplayStyle.Flex;
 
-			_echoInstance.transform.position = _echoDefaultPosition;
+			if (_echoInstance is not null)
+			{
+				Destroy(_echoInstance);
+				_echoInstance = null;
+			}
+
 			return;
 		}
 
+		_echoInstance ??= Instantiate(playerEchoPrefab, _positions.LastOrDefault(), Quaternion.identity);
 
 		_echoInstance.transform.position = _positions.LastOrDefault();
 		_positions.RemoveAt(_positions.Count - 1);
