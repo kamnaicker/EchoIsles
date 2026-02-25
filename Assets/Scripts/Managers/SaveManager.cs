@@ -230,6 +230,8 @@ public class SaveManager : MonoBehaviour
 
             if (LogSaveOperations)
                 Debug.Log($"SaveManager loaded file from: {path}");
+
+            return true;
         }
         catch (Exception ex)
         {
@@ -239,8 +241,6 @@ public class SaveManager : MonoBehaviour
 
             return false;
         }
-
-        return false;
     }
 
     public bool SaveGame()
@@ -288,8 +288,6 @@ public class SaveManager : MonoBehaviour
 
             ResetRuntimeSaveData();
             LastError = null;
-
-            UpdateSaveState(SaveState.Saved);
 
             if (LogSaveOperations)
                 Debug.Log($"SaveManager deleted save file at: {path}");
@@ -346,10 +344,10 @@ public class SaveManager : MonoBehaviour
     {
         EnsureSaveInitialised();
 
-        if (!string.IsNullOrEmpty(sceneName))
+        if (string.IsNullOrEmpty(sceneName) || string.IsNullOrEmpty(puzzleId))
             return;
 
-        PuzzleSaveRecord record = new PuzzleSaveRecord();
+        PuzzleSaveRecord record = FindPuzzleRecord(sceneName, puzzleId);
 
         if (record == null)
         {
@@ -375,10 +373,10 @@ public class SaveManager : MonoBehaviour
     {
         PuzzleSaveRecord record = FindPuzzleRecord(sceneName, puzzleId);
 
-        if (record == null)
+        if (record != null)
         {
             state = record.State;
-            return false;
+            return true;
         }
 
         state = IPuzzle.PuzzleState.Unsolved;
@@ -401,10 +399,10 @@ public class SaveManager : MonoBehaviour
 
     private string ResolveSaveFilePath()
     {
-        if (string.IsNullOrEmpty(SaveFileName))
+        if (string.IsNullOrWhiteSpace(SaveFileName))
             SaveFileName = $"save_{SaveVersion}.json";
         else
-            SaveFileName.Trim();
+            SaveFileName = SaveFileName.Trim();
 
         SavePath = BuildSaveFilePath(SaveFileName);
 
