@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 using static IPuzzle;
 
@@ -180,7 +181,7 @@ public class SaveManager : MonoBehaviour
     public bool HasSaveFile()
     {
         string path = ResolveSaveFilePath();
-        
+
         return System.IO.File.Exists(path);
     }
 
@@ -194,9 +195,9 @@ public class SaveManager : MonoBehaviour
             {
                 LastError = "Save file not found.";
 
-                if(LogSaveOperations)
+                if (LogSaveOperations)
                     Debug.Log($"SaveManager LoadGame failed: {LastError} Path: {path}");
-                
+
                 return false;
             }
 
@@ -204,7 +205,7 @@ public class SaveManager : MonoBehaviour
 
             string json = System.IO.File.ReadAllText(path);
 
-            if(string.IsNullOrEmpty(json))
+            if (string.IsNullOrEmpty(json))
             {
                 LastError = "Save file is empty.";
                 UpdateSaveState(SaveState.Error);
@@ -227,13 +228,16 @@ public class SaveManager : MonoBehaviour
             LastError = string.Empty;
             UpdateSaveState(SaveState.Saved);
 
-            if(LogSaveOperations)
-                    Debug.Log($"SaveManager loaded file from: {path}");
+            if (LogSaveOperations)
+                Debug.Log($"SaveManager loaded file from: {path}");
         }
-        catch (Exception)
+        catch (Exception ex)
         {
+            LastError = ex.Message;
+            UpdateSaveState(SaveState.Error);
+            Debug.LogError($"SaveManager LoadGame failed: {LastError}");
 
-            throw;
+            return false;
         }
 
         return false;
@@ -257,7 +261,7 @@ public class SaveManager : MonoBehaviour
             LastError = null;
             UpdateSaveState(SaveState.Saved);
 
-            if(LogSaveOperations)
+            if (LogSaveOperations)
                 Debug.Log($"SaveManager saved file to: {path}");
 
             return true;
@@ -291,13 +295,18 @@ public class SaveManager : MonoBehaviour
                 Debug.Log($"SaveManager deleted save file at: {path}");
 
             return true;
-            
+
         }
-        catch (Exception)
+        catch (Exception ex)
         {
-            throw;
+            LastError = ex.Message;
+            UpdateSaveState(SaveState.Error);
+            if (LogSaveOperations)
+                Debug.Log($"SaveManager delete failed: {LastError}");
+
+            return false;
         }
-        return false;
+
     }
 
     public void SetCurrentScene(string sceneName)
@@ -333,8 +342,8 @@ public class SaveManager : MonoBehaviour
             CurrentSave.completedLevelIds.Add(levelId);
     }
 
-    public void SetPuzzleState(string sceneName, string puzzleId, IPuzzle.PuzzleState state) 
-    { 
+    public void SetPuzzleState(string sceneName, string puzzleId, IPuzzle.PuzzleState state)
+    {
         EnsureSaveInitialised();
 
         if (!string.IsNullOrEmpty(sceneName))
@@ -354,8 +363,9 @@ public class SaveManager : MonoBehaviour
 
             CurrentSave.puzzleStates.Add(record);
         }
-        else { 
-            
+        else
+        {
+
             record.State = state;
 
         }
@@ -376,7 +386,8 @@ public class SaveManager : MonoBehaviour
         return false;
     }
 
-    public void ResetRuntimeSaveData() { 
+    public void ResetRuntimeSaveData()
+    {
         CurrentSave = null;
         HasLoadedSave = false;
         LastError = null;
@@ -402,7 +413,7 @@ public class SaveManager : MonoBehaviour
 
     private void EnsureSaveInitialised()
     {
-        if(CurrentSave == null)
+        if (CurrentSave == null)
             InitialiseNewSave();
 
         if (CurrentSave.puzzleStates == null || CurrentSave.puzzleStates.Count == 0)
@@ -422,7 +433,7 @@ public class SaveManager : MonoBehaviour
     {
         EnsureSaveInitialised();
 
-        if(string.IsNullOrWhiteSpace(sceneName) || string.IsNullOrWhiteSpace(puzzleId))
+        if (string.IsNullOrWhiteSpace(sceneName) || string.IsNullOrWhiteSpace(puzzleId))
             return null;
 
         return CurrentSave.puzzleStates.Find(record => record.SceneName == sceneName && record.PuzzleId == puzzleId);
