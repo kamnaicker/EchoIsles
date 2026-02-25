@@ -2060,6 +2060,13 @@ MonoBehaviour:
   SaveFileName: 
   SavePath: 
   SaveVersion: 0
+  CurrentSave:
+    saveVersion: 0
+    lastSavedUtcIso: 
+    currentSceneName: 
+    unlockedLevelIds: []
+    completedLevelIds: []
+    puzzleStates: []
   LogSaveOperations: 0
   LastError: 
 --- !u!1001 &827253625

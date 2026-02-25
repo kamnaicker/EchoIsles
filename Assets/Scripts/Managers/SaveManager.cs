@@ -33,8 +33,8 @@ public class SaveManager : MonoBehaviour
     public bool HasLoadedSave;
 
     public bool AutoSaveEnabled = true;
-
-    public string SaveFileName;
+    //set default file path to root of persistent data path, but can be overridden in inspector for testing purposes.
+    public string SaveFileName = string.Empty;
 
     public string SavePath;
 
@@ -166,7 +166,15 @@ public class SaveManager : MonoBehaviour
 
     public void InitialiseNewSave()
     {
-        CurrentSave = new SaveData();
+        CurrentSave = new SaveData()
+        {
+            saveVersion = SaveVersion,
+            lastSavedUtcIso = DateTime.UtcNow.ToString("O"),
+            currentSceneName = "",
+            unlockedLevelIds = new List<string>(),
+            completedLevelIds = new List<string>(),
+            puzzleStates = new List<PuzzleSaveRecord>()
+        };
     }
 
     public bool HasSaveFile()
@@ -194,16 +202,79 @@ public class SaveManager : MonoBehaviour
     //so we can load the correct scene when loading a save file.
     public void SetCurrentScene(string sceneName)
     {
+        EnsureSaveInitialised();
 
+        if (string.IsNullOrEmpty(sceneName))
+            return;
+
+        CurrentSave.currentSceneName = sceneName;
     }
 
-    public void MarkLevelUnlocked(string levelId) { }
+    public void MarkLevelUnlocked(string levelId)
+    {
+        EnsureSaveInitialised();
 
-    public void MarkLevelCompleted(string levelId) { }
+        if (string.IsNullOrEmpty(levelId))
+            return;
 
-    public void SetPuzzleState(string sceneName, string puzzleId, IPuzzle.PuzzleState state) { }
+        if (!CurrentSave.unlockedLevelIds.Contains(levelId))
+            CurrentSave.unlockedLevelIds.Add(levelId);
+    }
 
-    public bool TryGetPuzzleState(string sceneName, string puzzleId, IPuzzle.PuzzleState state) { return false; }
+    public void MarkLevelCompleted(string levelId)
+    {
+
+        EnsureSaveInitialised();
+
+        if (string.IsNullOrEmpty(levelId))
+            return;
+
+        if (!CurrentSave.completedLevelIds.Contains(levelId))
+            CurrentSave.completedLevelIds.Add(levelId);
+    }
+
+    public void SetPuzzleState(string sceneName, string puzzleId, IPuzzle.PuzzleState state) 
+    { 
+        EnsureSaveInitialised();
+
+        if (!string.IsNullOrEmpty(sceneName))
+            return;
+
+        PuzzleSaveRecord record = new PuzzleSaveRecord();
+
+        if (record == null)
+        {
+            record = new PuzzleSaveRecord
+            {
+
+                SceneName = sceneName,
+                PuzzleId = puzzleId,
+                State = state
+            };
+
+            CurrentSave.puzzleStates.Add(record);
+        }
+        else { 
+            
+            record.State = state;
+
+        }
+    }
+
+    public bool TryGetPuzzleState(string sceneName, string puzzleId, out IPuzzle.PuzzleState state)
+    {
+        PuzzleSaveRecord record = FindPuzzleRecord(sceneName, puzzleId);
+
+        if (record == null)
+        {
+            state = record.State;
+            return false;
+        }
+
+        state = IPuzzle.PuzzleState.Unsolved;
+
+        return false;
+    }
 
     public void ResetRuntimeSaveData() { }
 
@@ -212,13 +283,13 @@ public class SaveManager : MonoBehaviour
         return System.IO.Path.Combine(Application.persistentDataPath, fileName);
     }
 
-    private void EnsureSaveInitialised() 
-    { 
+    private void EnsureSaveInitialised()
+    {
     }
 
-    private PuzzleSaveRecord FindPuzzleRecord(string sceneName, string puzzleId) 
-    { 
-        return new PuzzleSaveRecord(); 
+    private PuzzleSaveRecord FindPuzzleRecord(string sceneName, string puzzleId)
+    {
+        return new PuzzleSaveRecord();
     }
 
 }
