@@ -126,7 +126,7 @@ public class SaveManager : MonoBehaviour
                 break;
         }
         OnSaveStateChanged?.Invoke(newSaveState);
-        Debug.Log($"Interaction State Changed to {newSaveState}");
+        Debug.Log($"Save state changed to {newSaveState}");
     }
 
     public void HandleGameStateChanged(GameState newState)
@@ -179,27 +179,127 @@ public class SaveManager : MonoBehaviour
 
     public bool HasSaveFile()
     {
-        return false;
+        string path = ResolveSaveFilePath();
+        
+        return System.IO.File.Exists(path);
     }
 
     public bool LoadGame()
     {
+        try
+        {
+            string path = ResolveSaveFilePath();
+
+            if (!System.IO.File.Exists(path))
+            {
+                LastError = "Save file not found.";
+
+                if(LogSaveOperations)
+                    Debug.Log($"SaveManager LoadGame failed: {LastError} Path: {path}");
+                
+                return false;
+            }
+
+            UpdateSaveState(SaveState.Loading);
+
+            string json = System.IO.File.ReadAllText(path);
+
+            if(string.IsNullOrEmpty(json))
+            {
+                LastError = "Save file is empty.";
+                UpdateSaveState(SaveState.Error);
+                return false;
+            }
+
+            SaveData loadedData = JsonUtility.FromJson<SaveData>(json);
+
+            if (loadedData == null)
+            {
+                LastError = "Failed to parse save file.";
+                UpdateSaveState(SaveState.Error);
+                return false;
+            }
+
+            CurrentSave = loadedData;
+            EnsureSaveInitialised();
+
+            HasLoadedSave = true;
+            LastError = string.Empty;
+            UpdateSaveState(SaveState.Saved);
+
+            if(LogSaveOperations)
+                    Debug.Log($"SaveManager loaded file from: {path}");
+        }
+        catch (Exception)
+        {
+
+            throw;
+        }
+
         return false;
     }
 
     public bool SaveGame()
     {
-        return false;
+        try
+        {
+            EnsureSaveInitialised();
+
+            CurrentSave.saveVersion = SaveVersion;
+            CurrentSave.lastSavedUtcIso = DateTime.UtcNow.ToString("O");
+
+            string path = ResolveSaveFilePath();
+            string json = JsonUtility.ToJson(CurrentSave, true);
+
+            System.IO.File.WriteAllText(path, json);
+
+            HasLoadedSave = true;
+            LastError = null;
+            UpdateSaveState(SaveState.Saved);
+
+            if(LogSaveOperations)
+                Debug.Log($"SaveManager saved file to: {path}");
+
+            return true;
+        }
+        catch (Exception ex)
+        {
+            LastError = ex.Message;
+            UpdateSaveState(SaveState.Error);
+            Debug.LogError($"SaveManager SaveGame failed: {ex}");
+            return false;
+        }
     }
 
     public bool DeleteSave()
     {
+        try
+        {
+            string path = ResolveSaveFilePath();
+
+            UpdateSaveState(SaveState.Deleting);
+
+            if (System.IO.File.Exists(path))
+                System.IO.File.Delete(path);
+
+            ResetRuntimeSaveData();
+            LastError = null;
+
+            UpdateSaveState(SaveState.Saved);
+
+            if (LogSaveOperations)
+                Debug.Log($"SaveManager deleted save file at: {path}");
+
+            return true;
+            
+        }
+        catch (Exception)
+        {
+            throw;
+        }
         return false;
     }
 
-    //TODO: Move to a more appropriate manager, but for now it can be here for testing purposes.
-    //This is to allow us to track which scene the player is currently in,
-    //so we can load the correct scene when loading a save file.
     public void SetCurrentScene(string sceneName)
     {
         EnsureSaveInitialised();
@@ -276,20 +376,56 @@ public class SaveManager : MonoBehaviour
         return false;
     }
 
-    public void ResetRuntimeSaveData() { }
+    public void ResetRuntimeSaveData() { 
+        CurrentSave = null;
+        HasLoadedSave = false;
+        LastError = null;
+        InitialiseNewSave();
+    }
 
     private string BuildSaveFilePath(string fileName)
     {
         return System.IO.Path.Combine(Application.persistentDataPath, fileName);
     }
 
+    private string ResolveSaveFilePath()
+    {
+        if (string.IsNullOrEmpty(SaveFileName))
+            SaveFileName = $"save_{SaveVersion}.json";
+        else
+            SaveFileName.Trim();
+
+        SavePath = BuildSaveFilePath(SaveFileName);
+
+        return SavePath;
+    }
+
     private void EnsureSaveInitialised()
     {
+        if(CurrentSave == null)
+            InitialiseNewSave();
+
+        if (CurrentSave.puzzleStates == null || CurrentSave.puzzleStates.Count == 0)
+            CurrentSave.puzzleStates = new List<PuzzleSaveRecord>();
+
+        if (CurrentSave.unlockedLevelIds == null || CurrentSave.unlockedLevelIds.Count == 0)
+            CurrentSave.unlockedLevelIds = new List<string>();
+
+        if (CurrentSave.completedLevelIds == null || CurrentSave.completedLevelIds.Count == 0)
+            CurrentSave.completedLevelIds = new List<string>();
+
+        if (string.IsNullOrEmpty(CurrentSave.currentSceneName))
+            CurrentSave.currentSceneName = "";
     }
 
     private PuzzleSaveRecord FindPuzzleRecord(string sceneName, string puzzleId)
     {
-        return new PuzzleSaveRecord();
+        EnsureSaveInitialised();
+
+        if(string.IsNullOrWhiteSpace(sceneName) || string.IsNullOrWhiteSpace(puzzleId))
+            return null;
+
+        return CurrentSave.puzzleStates.Find(record => record.SceneName == sceneName && record.PuzzleId == puzzleId);
     }
 
 }
