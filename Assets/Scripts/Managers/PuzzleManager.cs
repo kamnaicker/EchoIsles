@@ -1,11 +1,20 @@
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PuzzleManager : MonoBehaviour
 {
     public static PuzzleManager Instance;
-    public IPuzzle.PuzzleState State { get; set; }
+    public IPuzzle.PuzzleState State { get; private set; }
 
     public event System.Action<IPuzzle.PuzzleState> OnPuzzleStateChanged;
+
+    public event System.Action<string,string,IPuzzle.PuzzleState> OnPuzzleStateChangedDetails;
+
+    private readonly Dictionary<string, IPuzzle> _registeredPuzzles = new Dictionary<string, IPuzzle>();
+
+    private readonly Dictionary<string, IPuzzle.PuzzleState> _puzzleStates = new Dictionary<string, IPuzzle.PuzzleState>();
+
     private bool _isSubscribedToGameManager;
     public bool HasStateInitialized { get; private set; }
 
@@ -42,25 +51,24 @@ public class PuzzleManager : MonoBehaviour
         _isSubscribedToGameManager = false;
     }
 
-    public void UpdatePuzzleState(IPuzzle.PuzzleState newPuzzleState)
+    public void UpdatePuzzleState(string sceneName, string puzzleId, IPuzzle.PuzzleState newPuzzleState)
     {
-        State = newPuzzleState;
+        if(string.IsNullOrWhiteSpace(sceneName) || string.IsNullOrWhiteSpace(puzzleId))
+            return;
 
-        switch (newPuzzleState)
-        {
-            case IPuzzle.PuzzleState.Solved:
-                // Handle solved-specific logic here if needed
-                break;
-            case IPuzzle.PuzzleState.Unsolved:
-                // Handle unsolved-specific logic here if needed
-                break;
-            case IPuzzle.PuzzleState.InProgress:
-                // Handle in-progress-specific logic here if needed
-                break;
-        }
+        string key = BuildPuzzleKey(sceneName, puzzleId);
+        _puzzleStates[key] = newPuzzleState;
+
+        if(SaveManager.Instance != null)
+            SaveManager.Instance.SetPuzzleState(sceneName, puzzleId, newPuzzleState);
+
+        State = newPuzzleState;
         HasStateInitialized = true;
+
         OnPuzzleStateChanged?.Invoke(State);
-        Debug.Log($"Puzzle state updated to: {State}");
+        OnPuzzleStateChangedDetails?.Invoke(sceneName, puzzleId, newPuzzleState);
+
+        Debug.Log($"Puzzle '{puzzleId}' in scene '{sceneName}' updated to: {newPuzzleState}");
     }    
 
     public void HandleGameStateChanged(GameState newState)
@@ -122,13 +130,120 @@ public class PuzzleManager : MonoBehaviour
         }
     }
 
+    private string BuildPuzzleKey(string sceneName, string puzzleId)
+    {
+        return $"{sceneName}::{puzzleId}";
+    }
+
+    private string GetActiveSceneName()
+    {
+        Scene scene = SceneManager.GetActiveScene();
+        return scene.IsValid() ? scene.name : string.Empty;
+    }
+
+    private bool TryGetPuzzleIdentity(IPuzzle puzzle, out string sceneName, out string puzzleId)
+    {
+        sceneName = string.Empty;
+        puzzleId = string.Empty;
+
+        if (puzzle == null)
+            return false;
+
+        puzzleId = puzzle.PuzzleId;
+
+        if (string.IsNullOrWhiteSpace(puzzleId))
+            return false;
+
+        if (puzzle is Component component)
+            sceneName = component.gameObject.scene.name;
+        else
+            sceneName = GetActiveSceneName();
+
+        return !string.IsNullOrWhiteSpace(sceneName);
+    }
+
+
     public void RegisterPuzzle(IPuzzle puzzle)
     {
-        // TODO: Add logic to track registered puzzles
+        if(!TryGetPuzzleIdentity(puzzle, out string sceneName, out string puzzleId))
+        {
+            Debug.LogWarning("Failed to register puzzle: unable to determine valid scene name and puzzle ID.");
+            return;
+        }
+
+        string key = BuildPuzzleKey(sceneName, puzzleId);
+
+        _registeredPuzzles[key] = puzzle;
+
+        if (SaveManager.Instance != null &&
+        SaveManager.Instance.TryGetPuzzleState(sceneName, puzzleId, out IPuzzle.PuzzleState savedState))
+        {
+            _puzzleStates[key] = savedState;
+        }
+        else
+        {
+            _puzzleStates[key] = puzzle.State;
+        }
+
+        Debug.Log($"Registered puzzle '{puzzleId}' in scene '{sceneName}' with initial state: {_puzzleStates[key]}");
     }
+
+    public void UnregisterPuzzle(IPuzzle puzzle)
+    {
+        if(!TryGetPuzzleIdentity(puzzle, out string sceneName, out string puzzleId))
+        {
+            Debug.LogWarning("Failed to unregister puzzle: unable to determine valid scene name and puzzle ID.");
+            return;
+        }
+
+        string key = BuildPuzzleKey(sceneName, puzzleId);
+        _registeredPuzzles.Remove(key);
+
+        Debug.Log($"Unregistered puzzle '{puzzleId}' in scene '{sceneName}'.");
+    }
+
+    public bool TryGetPuzzleState(string sceneName, string puzzleId, out IPuzzle.PuzzleState state)
+    {
+        if (string.IsNullOrWhiteSpace(sceneName) || string.IsNullOrWhiteSpace(puzzleId))
+        {
+            state = IPuzzle.PuzzleState.Unsolved;
+            return false;
+        }
+
+        string key = BuildPuzzleKey(sceneName, puzzleId);
+
+        if (_puzzleStates.TryGetValue(key, out state))
+            return true;
+
+        if (SaveManager.Instance != null && SaveManager.Instance.TryGetPuzzleState(sceneName, puzzleId, out state))
+        {
+            _puzzleStates[key] = state;
+            return true;
+        }
+
+        state = IPuzzle.PuzzleState.Unsolved;
+        return false;
+    }
+
 
     public void ResetAllPuzzles()
     {
-        // TODO: Add logic to reset all registered puzzles to their initial state
+        foreach (KeyValuePair<string, IPuzzle> entry in _registeredPuzzles)
+        {
+            IPuzzle puzzle = entry.Value;
+
+            if (puzzle == null)
+                continue;
+
+            puzzle.ResetPuzzle();
+
+            if (TryGetPuzzleIdentity(puzzle, out string sceneName, out string puzzleId))
+            {
+                // Sync manager/save state after the puzzle resets itself
+                UpdatePuzzleState(sceneName, puzzleId, puzzle.State);
+            }
+        }
+
+        Debug.Log("PuzzleManager reset all registered puzzles.");
     }
 }
