@@ -5,6 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="64b8dda1-a6d0-4df8-9fca-d9daa9b79f13" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Replayer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Replayer.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/UI/HUD.uxml" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/UI/HUD.uxml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.EchoIsles/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.EchoIsles/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Door.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/Door.prefab" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Prototype/Pressure Plate.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/Prototype/Pressure Plate.prefab" afterDir="false" />
