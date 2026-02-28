@@ -967,6 +967,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SequentialMovingObject
   finalPositionOffset: {x: -2, y: 0, z: 0}
   speed: 2
+  smoothTime: 0.3
   sequentialTriggers: {fileID: 696866912}
 --- !u!1001 &412802566
 PrefabInstance:
@@ -2872,10 +2873,6 @@ PrefabInstance:
     - target: {fileID: 3186541680615234958, guid: 8bc10862f6efa8849927bc7d7f05142b, type: 3}
       propertyPath: Composition.DeadZone.Size.y
       value: 0.1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3186541680615234958, guid: 8bc10862f6efa8849927bc7d7f05142b, type: 3}
-      propertyPath: Composition.DeadZone.Enabled
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4548540183084812392, guid: 8bc10862f6efa8849927bc7d7f05142b, type: 3}
       propertyPath: m_LocalPosition.x

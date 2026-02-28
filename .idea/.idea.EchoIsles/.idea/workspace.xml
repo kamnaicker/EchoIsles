@@ -4,12 +4,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="64b8dda1-a6d0-4df8-9fca-d9daa9b79f13" name="Changes" comment="">
+    <list default="true" id="6f6c5ed0-5b93-482d-bbe2-58aacef395f1" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.EchoIsles/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.EchoIsles/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Door.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/Door.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Prototype/Pressure Plate.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/Prototype/Pressure Plate.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/Assets.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/Assets.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/PressurePlate.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/PressurePlate.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Settings/Mobile_RPAsset.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Settings/Mobile_RPAsset.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Settings/PC_RPAsset.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Settings/PC_RPAsset.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Settings/UniversalRenderPipelineGlobalSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Settings/UniversalRenderPipelineGlobalSettings.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProjectSettings/EditorBuildSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/EditorBuildSettings.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProjectSettings/GraphicsSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/GraphicsSettings.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProjectSettings/ProjectSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/ProjectSettings.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProjectSettings/ShaderGraphSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/ShaderGraphSettings.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProjectSettings/UnityConnectSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/UnityConnectSettings.asset" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -19,17 +23,11 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="HighlightingSettingsPerFile">
-    <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.render-pipelines.universal@a6e30d1f59f5/Shaders/Terrain/TerrainLit.shader" root0="SKIP_HIGHLIGHTING" />
-  </component>
   <component name="MetaFilesCheckinStateConfiguration" checkMetaFiles="true" />
-  <component name="ProblemsViewState">
-    <option name="selectedTabId" value="SWEA" />
-  </component>
   <component name="ProjectColorInfo">{
-  &quot;associatedIndex&quot;: 8
+  &quot;associatedIndex&quot;: 4
 }</component>
-  <component name="ProjectId" id="35Z7z5aKr07glGkbPJJurvcOkC9" />
+  <component name="ProjectId" id="3ADx7xEIO3umxey6BffcShce5fy" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -40,24 +38,20 @@
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;SCRUM-12-Door&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;feat/replace-assets&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;rider.code.cleanup.on.save&quot;: &quot;true&quot;,
-    &quot;rider.code.cleanup.on.save.profile&quot;: &quot;Built-in: Reformat &amp; Apply Syntax Style&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;terminal&quot;,
-    &quot;settings.editor.splitter.proportion&quot;: &quot;0.299389&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
   <component name="RunManager" selected="Attach to Unity Editor.Attach to Unity Editor">
     <configuration name="Start Unity" type="RunUnityExe" factoryName="Unity Executable">
       <option name="EXE_PATH" value="D:\Unity\6000.3.7f1\Editor\Unity.exe" />
-      <option name="PROGRAM_PARAMETERS" value="-projectPath D:\code\unity\EchoIsles -debugCodeOptimization" />
-      <option name="WORKING_DIRECTORY" value="D:\code\unity\EchoIsles" />
+      <option name="PROGRAM_PARAMETERS" value="-projectPath D:\code\unity_backup\EchoIsles -debugCodeOptimization" />
+      <option name="WORKING_DIRECTORY" value="D:\code\unity_backup\EchoIsles" />
       <option name="PASS_PARENT_ENVS" value="1" />
       <option name="USE_EXTERNAL_CONSOLE" value="0" />
       <option name="ENV_FILE_PATHS" value="" />
@@ -68,8 +62,8 @@
     </configuration>
     <configuration name="Unit Tests (batch mode)" type="RunUnityExe" factoryName="Unity Executable">
       <option name="EXE_PATH" value="D:\Unity\6000.3.7f1\Editor\Unity.exe" />
-      <option name="PROGRAM_PARAMETERS" value="-runTests -batchmode -projectPath D:\code\unity\EchoIsles -testResults Logs/results.xml -logFile Logs/Editor.log -testPlatform EditMode -debugCodeOptimization" />
-      <option name="WORKING_DIRECTORY" value="D:\code\unity\EchoIsles" />
+      <option name="PROGRAM_PARAMETERS" value="-runTests -batchmode -projectPath D:\code\unity_backup\EchoIsles -testResults Logs/results.xml -logFile Logs/Editor.log -testPlatform EditMode -debugCodeOptimization" />
+      <option name="WORKING_DIRECTORY" value="D:\code\unity_backup\EchoIsles" />
       <option name="PASS_PARENT_ENVS" value="1" />
       <option name="USE_EXTERNAL_CONSOLE" value="0" />
       <option name="ENV_FILE_PATHS" value="" />
@@ -112,35 +106,13 @@
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="64b8dda1-a6d0-4df8-9fca-d9daa9b79f13" name="Changes" comment="" />
-      <created>1763306000279</created>
+      <changelist id="6f6c5ed0-5b93-482d-bbe2-58aacef395f1" name="Changes" comment="" />
+      <created>1772140805283</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1763306000279</updated>
-      <workItem from="1763306003880" duration="6988000" />
-      <workItem from="1763325869123" duration="1161000" />
-      <workItem from="1763397476466" duration="8530000" />
-      <workItem from="1763485511361" duration="3372000" />
-      <workItem from="1763573397779" duration="907000" />
-      <workItem from="1763574426616" duration="1510000" />
-      <workItem from="1763667534186" duration="402000" />
-      <workItem from="1764699245485" duration="3226000" />
-      <workItem from="1764779324181" duration="3920000" />
-      <workItem from="1764864772233" duration="9468000" />
-      <workItem from="1764970631536" duration="653000" />
-      <workItem from="1765092842347" duration="2540000" />
-      <workItem from="1765097794501" duration="487000" />
-      <workItem from="1768757235288" duration="5557000" />
-      <workItem from="1768922239212" duration="5315000" />
-      <workItem from="1769356905741" duration="4593000" />
-      <workItem from="1770057585047" duration="588000" />
-      <workItem from="1770457761912" duration="1964000" />
-      <workItem from="1770755304149" duration="728000" />
-      <workItem from="1770832124606" duration="364000" />
-      <workItem from="1771004576621" duration="97000" />
-      <workItem from="1771004768214" duration="2607000" />
-      <workItem from="1771527900329" duration="538000" />
-      <workItem from="1771528513829" duration="363000" />
+      <updated>1772140805283</updated>
+      <workItem from="1772140838857" duration="819000" />
+      <workItem from="1772215431587" duration="1025000" />
     </task>
     <servers />
   </component>
@@ -175,9 +147,5 @@
         </breakpoint>
       </breakpoints>
     </breakpoint-manager>
-  </component>
-  <component name="XSLT-Support.FileAssociations.UIState">
-    <expand />
-    <select />
   </component>
 </project>

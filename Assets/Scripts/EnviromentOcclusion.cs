@@ -1,6 +1,5 @@
 using UnityEngine;
 using System.Collections;
-using UnityEditor.ShaderGraph.Internal;
 
 public class EnviromentOcclusion : MonoBehaviour
 {
