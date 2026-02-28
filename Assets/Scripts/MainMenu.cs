@@ -21,8 +21,7 @@ public class MainMenu : MonoBehaviour
 
 	private void StartGame(ClickEvent evt)
 	{
-		// TODO: Replace with the Main Level scene index
-		SceneManager.LoadScene(0);
+		SceneManager.LoadScene(1);
 	}
 
 	private void QuitGame(ClickEvent evt)
