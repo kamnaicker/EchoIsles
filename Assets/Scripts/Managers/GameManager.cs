@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -23,11 +24,21 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject);
     }
 
+    private void OnEnable()
+    {
+        SceneManager.sceneLoaded += HandleSceneLoaded;
+    }
+
+    private void OnDisable()
+    {
+        SceneManager.sceneLoaded -= HandleSceneLoaded;
+    }
+
     void Start()
     {
         Debug.Log("GameManager boot sequence starting.");
         UpdateGameState(GameState.Initialisation);
-        UpdateGameState(GameState.Menu);
+        SyncStateToCurrentScene();
     }
 
     public void UpdateGameState(GameState newState)
@@ -70,6 +81,26 @@ public class GameManager : MonoBehaviour
         Debug.Log($"GameManager broadcasting state change: {newState}");
         OnGameStateChanged?.Invoke(newState);
         Debug.Log("Game State updated to: " + newState.ToString());
+    }
+
+    private void HandleSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        SyncStateToCurrentScene();
+    }
+
+    private void SyncStateToCurrentScene()
+    {
+        Scene activeScene = SceneManager.GetActiveScene();
+        if (!activeScene.IsValid())
+            return;
+
+        bool isMenuScene = activeScene.name == "Main Menu";
+        GameState targetState = isMenuScene ? GameState.Menu : GameState.Playing;
+
+        if (State == targetState)
+            return;
+
+        UpdateGameState(targetState);
     }
 }
 

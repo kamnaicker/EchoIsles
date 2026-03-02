@@ -1,100 +1,182 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
-public class SequentialTriggers : MonoBehaviour
+public class SequentialTriggers : MonoBehaviour, IPuzzle
 {
-	[SerializeField] private List<InteractiveObjectTrigger> triggers;
+	[SerializeField] private string puzzleId;
+	[FormerlySerializedAs("triggers")]
+	[SerializeField] private List<InteractiveObjectTrigger> orderedTriggers;
+	[FormerlySerializedAs("resetAfterFinalExit")]
+	[SerializeField] private bool resetProgressAfterFinalExit = true;
 
-	private int _completion;
+	private int _currentProgressSteps;
+	private int _lastActivatedTriggerIndex = -1;
+	private bool _isPuzzleRegistered;
+
 	public float CompletionRate;
+	public bool IsComplete => orderedTriggers.Count > 0 && _currentProgressSteps >= orderedTriggers.Count;
+	public bool HasCompletedOnce { get; private set; }
 
-	private InteractiveObjectTrigger _firstTriggered;
-	private InteractiveObjectTrigger _secondTriggered;
+	public string PuzzleId => string.IsNullOrWhiteSpace(puzzleId) ? BuildDefaultPuzzleId() : puzzleId;
+	public IPuzzle.PuzzleState State { get; private set; } = IPuzzle.PuzzleState.Unsolved;
+
+	private void OnEnable()
+	{
+		RegisterWithPuzzleManagerIfAvailable();
+		RefreshAndPublishPuzzleState();
+	}
 
 	private void Start()
 	{
-		for (int i = 0; i < triggers.Count; i++)
+		for (int i = 0; i < orderedTriggers.Count; i++)
 		{
-			triggers[i].OnActivation += OnSomeTriggerActivation;
-			triggers[i].OnDeactivation += OnSomeTriggerDeactivation;
-			triggers[i].Index = i;
-		}
-	}
-
-	private void OnSomeTriggerActivation(InteractiveObjectTrigger trigger)
-	{
-		if (_firstTriggered == null && _secondTriggered == null) _firstTriggered = trigger;
-
-		if (_firstTriggered != null && _secondTriggered == null && _firstTriggered.Index != trigger.Index)
-			_secondTriggered = trigger;
-
-		ComputeCompletion();
-		ComputeCompletionRate();
-	}
-
-	private void OnSomeTriggerDeactivation(InteractiveObjectTrigger trigger)
-	{
-		if (_firstTriggered?.Index == trigger.Index)
-		{
-			_firstTriggered = _secondTriggered;
-			_secondTriggered = null;
+			orderedTriggers[i].OnActivation += HandleTriggerActivated;
+			orderedTriggers[i].OnDeactivation += HandleTriggerDeactivated;
+			orderedTriggers[i].Index = i;
 		}
 
-		if (_secondTriggered?.Index == trigger.Index) _secondTriggered = null;
-
-		ComputeCompletion();
-		ComputeCompletionRate();
+		UpdateCompletionRate();
+		RefreshAndPublishPuzzleState();
 	}
 
-	private void ComputeCompletion()
+	private void OnDisable()
 	{
-		// If none are triggerred - reset completion
-		if (_firstTriggered == null && _secondTriggered == null)
+		UnregisterFromPuzzleManager();
+	}
+
+	private void HandleTriggerActivated(InteractiveObjectTrigger trigger)
+	{
+		if (orderedTriggers.Count == 0) return;
+
+		// Advance only when the next expected trigger is pressed.
+		if (trigger.Index == _currentProgressSteps)
 		{
-			_completion = 0;
+			_currentProgressSteps++;
+			_lastActivatedTriggerIndex = trigger.Index;
+		}
+		// Pressing the first trigger starts/restarts a run.
+		else if (trigger.Index == 0)
+		{
+			_currentProgressSteps = 1;
+			_lastActivatedTriggerIndex = 0;
+		}
+		// Any other out-of-order trigger resets the sequence.
+		else
+		{
+			_currentProgressSteps = 0;
+			_lastActivatedTriggerIndex = -1;
+		}
+
+		_currentProgressSteps = Mathf.Clamp(_currentProgressSteps, 0, orderedTriggers.Count);
+		if (IsComplete)
+			HasCompletedOnce = true;
+
+		UpdateCompletionRate();
+		RefreshAndPublishPuzzleState();
+	}
+
+	private void HandleTriggerDeactivated(InteractiveObjectTrigger trigger)
+	{
+		if (orderedTriggers.Count == 0) return;
+
+		if (!resetProgressAfterFinalExit)
+		{
+			UpdateCompletionRate();
+			RefreshAndPublishPuzzleState();
 			return;
 		}
 
-		// If both are triggered
-		if (_firstTriggered != null && _secondTriggered != null)
+		// Once the sequence is complete, stepping off the final activated trigger resets it.
+		if (_currentProgressSteps == orderedTriggers.Count && trigger.Index == _lastActivatedTriggerIndex)
 		{
-			// If an increment is detected, increase completion
-			if (_firstTriggered.Index == _secondTriggered.Index - 1 &&
-			    _secondTriggered.Index == _completion)
-				_completion++;
-
-
-			if (_firstTriggered.Index != _secondTriggered.Index - 1)
-			{
-				// If no increment is detected, do nothing
-				if (_firstTriggered.Index + 1 == _completion || _secondTriggered.Index + 1 == _completion) return;
-
-				// Otherwise (if two irrelevant triggers are active) reset completion
-				_completion = 0;
-			}
+			_currentProgressSteps = 0;
+			_lastActivatedTriggerIndex = -1;
 		}
 
-		// If only one trigger is active
-		if (_firstTriggered != null && _secondTriggered == null)
-		{
-			if (_firstTriggered.Index + 1 == _completion) return;
-
-			// Handle first trigger, or decrement (e.g. when stepping off of the second pressure plate)
-			if (_firstTriggered.Index == 0 || _firstTriggered.Index + 2 == _completion)
-			{
-				_completion = _firstTriggered.Index + 1;
-				return;
-			}
-
-			_completion = 0;
-		}
+		UpdateCompletionRate();
+		RefreshAndPublishPuzzleState();
 	}
 
-	private void ComputeCompletionRate()
+	private void UpdateCompletionRate()
 	{
-		if (triggers.Count == 0) return;
+		if (orderedTriggers.Count == 0) return;
 
-		CompletionRate = (float)_completion / triggers.Count;
+		CompletionRate = (float)_currentProgressSteps / orderedTriggers.Count;
+	}
+
+	public void ResetPuzzleState(bool clearHasCompletedOnce = false)
+	{
+		_currentProgressSteps = 0;
+		_lastActivatedTriggerIndex = -1;
+
+		if (clearHasCompletedOnce)
+			HasCompletedOnce = false;
+
+		UpdateCompletionRate();
+		RefreshAndPublishPuzzleState();
+	}
+
+	public void ResetPuzzle()
+	{
+		ResetPuzzleState(true);
+	}
+
+	private void RegisterWithPuzzleManagerIfAvailable()
+	{
+		if (_isPuzzleRegistered)
+			return;
+
+		if (PuzzleManager.Instance == null)
+			return;
+
+		PuzzleManager.Instance.RegisterPuzzle(this);
+		_isPuzzleRegistered = true;
+	}
+
+	private void UnregisterFromPuzzleManager()
+	{
+		if (!_isPuzzleRegistered)
+			return;
+
+		if (PuzzleManager.Instance != null)
+			PuzzleManager.Instance.UnregisterPuzzle(this);
+
+		_isPuzzleRegistered = false;
+	}
+
+	private void RefreshAndPublishPuzzleState()
+	{
+		RegisterWithPuzzleManagerIfAvailable();
+
+		IPuzzle.PuzzleState nextState;
+		if (HasCompletedOnce || IsComplete)
+			nextState = IPuzzle.PuzzleState.Solved;
+		else if (_currentProgressSteps > 0)
+			nextState = IPuzzle.PuzzleState.InProgress;
+		else
+			nextState = IPuzzle.PuzzleState.Unsolved;
+
+		State = nextState;
+
+		if (PuzzleManager.Instance != null && !string.IsNullOrWhiteSpace(PuzzleId))
+			PuzzleManager.Instance.UpdatePuzzleState(gameObject.scene.name, PuzzleId, State);
+	}
+
+	private string BuildDefaultPuzzleId()
+	{
+		if (transform == null)
+			return gameObject.name;
+
+		string path = transform.name;
+		Transform current = transform.parent;
+
+		while (current != null)
+		{
+			path = $"{current.name}/{path}";
+			current = current.parent;
+		}
+
+		return path;
 	}
 }

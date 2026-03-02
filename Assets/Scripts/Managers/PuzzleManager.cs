@@ -225,6 +225,54 @@ public class PuzzleManager : MonoBehaviour
         return false;
     }
 
+    public int GetPuzzleCountInScene(string sceneName)
+    {
+        if (string.IsNullOrWhiteSpace(sceneName))
+            return 0;
+
+        string prefix = $"{sceneName}::";
+        int count = 0;
+
+        foreach (string key in _puzzleStates.Keys)
+        {
+            if (key.StartsWith(prefix))
+                count++;
+        }
+
+        return count;
+    }
+
+    public int GetSolvedPuzzleCountInScene(string sceneName)
+    {
+        if (string.IsNullOrWhiteSpace(sceneName))
+            return 0;
+
+        string prefix = $"{sceneName}::";
+        int count = 0;
+
+        foreach (KeyValuePair<string, IPuzzle.PuzzleState> entry in _puzzleStates)
+        {
+            if (!entry.Key.StartsWith(prefix))
+                continue;
+
+            if (entry.Value == IPuzzle.PuzzleState.Solved)
+                count++;
+        }
+
+        return count;
+    }
+
+    public bool AreAllPuzzlesSolvedInScene(string sceneName, bool requireAtLeastOnePuzzle = true)
+    {
+        int totalCount = GetPuzzleCountInScene(sceneName);
+        int solvedCount = GetSolvedPuzzleCountInScene(sceneName);
+
+        if (totalCount == 0)
+            return !requireAtLeastOnePuzzle;
+
+        return solvedCount == totalCount;
+    }
+
 
     public void ResetAllPuzzles()
     {
