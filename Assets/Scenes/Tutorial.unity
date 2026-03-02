@@ -779,11 +779,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::TriggeredMovingObject
   trigger: {fileID: 1849560624}
   puzzleId: 
-  registerAsPuzzle: 1
-  keepSolvedAfterReturning: 1
-  arrivalThreshold: 0.01
-  finalPositionOffset: {x: 0, y: 10, z: 0}
-  speed: 4
+  reportToPuzzleManager: 1
+  retainSolvedStateWhenReturning: 1
+  arrivalDistanceThreshold: 0.01
+  targetPositionOffset: {x: 0, y: 10, z: 0}
+  moveSpeed: 4
 --- !u!54 &194901040
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -2671,11 +2671,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::TriggeredMovingObject
   trigger: {fileID: 1781298326}
   puzzleId: 
-  registerAsPuzzle: 1
-  keepSolvedAfterReturning: 1
-  arrivalThreshold: 0.01
-  finalPositionOffset: {x: 0, y: 1, z: 0}
-  speed: 2
+  reportToPuzzleManager: 1
+  retainSolvedStateWhenReturning: 1
+  arrivalDistanceThreshold: 0.01
+  targetPositionOffset: {x: 0, y: 1, z: 0}
+  moveSpeed: 2
 --- !u!54 &630198670
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -2926,16 +2926,6 @@ PrefabInstance:
 Transform:
   m_CorrespondingSourceObject: {fileID: 7865909030179976016, guid: 4f06aca560871d54da3e2c9cbfa9acb5, type: 3}
   m_PrefabInstance: {fileID: 1720462998}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &686145791 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 1126242358742066004, guid: 094cd1418e634464ebab9c4a1fdcbde4, type: 3}
-  m_PrefabInstance: {fileID: 1408844978}
-  m_PrefabAsset: {fileID: 0}
---- !u!95 &686145792 stripped
-Animator:
-  m_CorrespondingSourceObject: {fileID: 6431452124632873262, guid: 094cd1418e634464ebab9c4a1fdcbde4, type: 3}
-  m_PrefabInstance: {fileID: 1408844978}
   m_PrefabAsset: {fileID: 0}
 --- !u!4 &686296272 stripped
 Transform:
@@ -3660,33 +3650,13 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2563765488612535469, guid: bfb2d10491bdf2a4ab1bbd55f8358288, type: 3}
-      propertyPath: m_Height
-      value: 2.33
-      objectReference: {fileID: 0}
     - target: {fileID: 2950506228037367958, guid: bfb2d10491bdf2a4ab1bbd55f8358288, type: 3}
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
-    - target: {fileID: 2950506228037367958, guid: bfb2d10491bdf2a4ab1bbd55f8358288, type: 3}
-      propertyPath: m_TagString
-      value: Player
-      objectReference: {fileID: 0}
-    - target: {fileID: 3073463220800148809, guid: bfb2d10491bdf2a4ab1bbd55f8358288, type: 3}
-      propertyPath: m_Layer
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8246126949046061075, guid: bfb2d10491bdf2a4ab1bbd55f8358288, type: 3}
-      propertyPath: animator
-      value: 
-      objectReference: {fileID: 686145792}
     m_RemovedComponents: []
-    m_RemovedGameObjects:
-    - {fileID: 5254036524649917947, guid: bfb2d10491bdf2a4ab1bbd55f8358288, type: 3}
-    m_AddedGameObjects:
-    - targetCorrespondingSourceObject: {fileID: 3043169484034350469, guid: bfb2d10491bdf2a4ab1bbd55f8358288, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 686145791}
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bfb2d10491bdf2a4ab1bbd55f8358288, type: 3}
 --- !u!1 &952893952 stripped
@@ -4533,11 +4503,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::TriggeredMovingObject
   trigger: {fileID: 1781298326}
   puzzleId: 0
-  registerAsPuzzle: 1
-  keepSolvedAfterReturning: 1
-  arrivalThreshold: 0.01
-  finalPositionOffset: {x: 0, y: 1, z: 0}
-  speed: 2
+  reportToPuzzleManager: 1
+  retainSolvedStateWhenReturning: 1
+  arrivalDistanceThreshold: 0.01
+  targetPositionOffset: {x: 0, y: 1, z: 0}
+  moveSpeed: 2
 --- !u!54 &1171308654
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -5209,11 +5179,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::TriggeredMovingObject
   trigger: {fileID: 1781298326}
   puzzleId: 0
-  registerAsPuzzle: 1
-  keepSolvedAfterReturning: 1
-  arrivalThreshold: 0.01
-  finalPositionOffset: {x: 0, y: 1, z: 0}
-  speed: 2
+  reportToPuzzleManager: 1
+  retainSolvedStateWhenReturning: 1
+  arrivalDistanceThreshold: 0.01
+  targetPositionOffset: {x: 0, y: 1, z: 0}
+  moveSpeed: 2
 --- !u!54 &1285299633
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -5833,11 +5803,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 8247368613372396330, guid: daa623050eeb76c488c69cbbcc7e13ae, type: 3}
   m_PrefabInstance: {fileID: 1415842014}
   m_PrefabAsset: {fileID: 0}
---- !u!4 &1401839556 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 3043169484034350469, guid: bfb2d10491bdf2a4ab1bbd55f8358288, type: 3}
-  m_PrefabInstance: {fileID: 950342554}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1402791100
 GameObject:
   m_ObjectHideFlags: 0
@@ -5939,75 +5904,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 30d895f6c3540184abe92a822f1c088f, type: 3}
---- !u!1001 &1408844978
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 1401839556}
-    m_Modifications:
-    - target: {fileID: 354350443408783854, guid: 094cd1418e634464ebab9c4a1fdcbde4, type: 3}
-      propertyPath: m_Name
-      value: GanzSe Free Modular Character Update 1_1
-      objectReference: {fileID: 0}
-    - target: {fileID: 354350443408783854, guid: 094cd1418e634464ebab9c4a1fdcbde4, type: 3}
-      propertyPath: m_TagString
-      value: Untagged
-      objectReference: {fileID: 0}
-    - target: {fileID: 1126242358742066004, guid: 094cd1418e634464ebab9c4a1fdcbde4, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1126242358742066004, guid: 094cd1418e634464ebab9c4a1fdcbde4, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1126242358742066004, guid: 094cd1418e634464ebab9c4a1fdcbde4, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1126242358742066004, guid: 094cd1418e634464ebab9c4a1fdcbde4, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1126242358742066004, guid: 094cd1418e634464ebab9c4a1fdcbde4, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1126242358742066004, guid: 094cd1418e634464ebab9c4a1fdcbde4, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1126242358742066004, guid: 094cd1418e634464ebab9c4a1fdcbde4, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1126242358742066004, guid: 094cd1418e634464ebab9c4a1fdcbde4, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1126242358742066004, guid: 094cd1418e634464ebab9c4a1fdcbde4, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1126242358742066004, guid: 094cd1418e634464ebab9c4a1fdcbde4, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6431452124632873262, guid: 094cd1418e634464ebab9c4a1fdcbde4, type: 3}
-      propertyPath: m_Controller
-      value: 
-      objectReference: {fileID: 9100000, guid: dea11f3e40845334b80929cd21b60a1b, type: 2}
-    - target: {fileID: 6431452124632873262, guid: 094cd1418e634464ebab9c4a1fdcbde4, type: 3}
-      propertyPath: m_AnimatePhysics
-      value: 1
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 094cd1418e634464ebab9c4a1fdcbde4, type: 3}
 --- !u!1001 &1412245629
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6352,11 +6248,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::TriggeredMovingObject
   trigger: {fileID: 1781298326}
   puzzleId: 
-  registerAsPuzzle: 1
-  keepSolvedAfterReturning: 1
-  arrivalThreshold: 0.01
-  finalPositionOffset: {x: 0, y: 1, z: 0}
-  speed: 2
+  reportToPuzzleManager: 1
+  retainSolvedStateWhenReturning: 1
+  arrivalDistanceThreshold: 0.01
+  targetPositionOffset: {x: 0, y: 1, z: 0}
+  moveSpeed: 2
 --- !u!54 &1498380878
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -6524,10 +6420,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SequentialTriggers
   puzzleId: 
-  triggers:
+  orderedTriggers:
   - {fileID: 1718882662}
   - {fileID: 1907704859}
-  resetAfterFinalExit: 1
+  resetProgressAfterFinalExit: 1
   CompletionRate: 0
 --- !u!4 &1518961968
 Transform:
@@ -6844,11 +6740,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fb3fced89e6c2c04f802fabd45dc5226, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LevelExitTrigger
-  levelDefinition: {fileID: 0}
-  requiredTag: Player
-  ignoreRequirements: 1
-  oneShot: 1
-  logBlockedAttempts: 1
+  levelConfig: {fileID: 0}
+  triggeringTag: Player
+  bypassRequirementChecks: 1
+  triggerOnce: 1
+  logBlockedCompletions: 1
 --- !u!4 &1609791853 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8390262505068197335, guid: 13c07566e901a4b4cb343d139b0b78ba, type: 3}
@@ -8390,11 +8286,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::TriggeredMovingObject
   trigger: {fileID: 1781298326}
   puzzleId: 0
-  registerAsPuzzle: 1
-  keepSolvedAfterReturning: 1
-  arrivalThreshold: 0.01
-  finalPositionOffset: {x: 0, y: 1, z: 0}
-  speed: 2
+  reportToPuzzleManager: 1
+  retainSolvedStateWhenReturning: 1
+  arrivalDistanceThreshold: 0.01
+  targetPositionOffset: {x: 0, y: 1, z: 0}
+  moveSpeed: 2
 --- !u!54 &1946505261
 Rigidbody:
   m_ObjectHideFlags: 0
