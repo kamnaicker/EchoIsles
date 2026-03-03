@@ -111,9 +111,11 @@ public class TriggeredMovingObject : InteractiveObject, IPuzzle
 
 	protected override void OnDeactivation(InteractiveObjectTrigger trigger)
 	{
-		_movementDirection = MovementDirection.Backward;
 		if (!(_hasReachedSolvedState && retainSolvedStateWhenReturning))
+		{
+			_movementDirection = MovementDirection.Backward;
 			SetPuzzleState(IPuzzle.PuzzleState.InProgress);
+		}
 	}
 
 	public void ResetPuzzle()

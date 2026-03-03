@@ -164,25 +164,25 @@ public class Player : MonoBehaviour
 	// 		}
 	// 	}
 	// }
-
-
-	private void OnTriggerEnter(Collider other)
-	{
-		if (other.gameObject.CompareTag("Platform"))
-		{
-			_parentPlatform = other.gameObject;
-			_platformPosition = _parentPlatform.transform.position;
-		}
-	}
-
-	private void OnTriggerExit(Collider other)
-	{
-		if (other.gameObject.CompareTag("Platform"))
-		{
-			_parentPlatform = null;
-			_platformMovement = Vector3.zero;
-		}
-	}
+	//
+	//
+	// private void OnTriggerEnter(Collider other)
+	// {
+	// 	if (other.gameObject.CompareTag("Platform"))
+	// 	{
+	// 		_parentPlatform = other.gameObject;
+	// 		_platformPosition = _parentPlatform.transform.position;
+	// 	}
+	// }
+	//
+	// private void OnTriggerExit(Collider other)
+	// {
+	// 	if (other.gameObject.CompareTag("Platform"))
+	// 	{
+	// 		_parentPlatform = null;
+	// 		_platformMovement = Vector3.zero;
+	// 	}
+	// }
 
 
 	private void OnDrawGizmosSelected()
