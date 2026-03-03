@@ -21,6 +21,7 @@ public class Replayer : MonoBehaviour
 	public bool isRecordingAvailable = false;
 
 	private GameObject _echoInstance = null;
+	private Rigidbody _echoInstanceRigidBody = null;
 	private Vector3 _echoDefaultPosition = new(0, 100, 0);
 	private List<Vector3> _positions;
 	private ProgressBar _remainingEchoBar;
@@ -66,6 +67,7 @@ public class Replayer : MonoBehaviour
 		DontDestroyOnLoad(gameObject);
 		_positions = new List<Vector3>();
 		_echoInstance = Instantiate(playerEchoPrefab, _echoDefaultPosition, Quaternion.identity);
+		_echoInstanceRigidBody = _echoInstance.GetComponent<Rigidbody>();
 	}
 
 
@@ -96,7 +98,7 @@ public class Replayer : MonoBehaviour
 		if (_positions.Count == 0)
 		{
 			replaying = false;
-			remainingDuration = 10f;
+			remainingDuration = maxRecordingDuration;
 			remainingDurationPercentage = 100f;
 
 			_echoBarContainer.style.opacity = 0.5f;
@@ -106,12 +108,14 @@ public class Replayer : MonoBehaviour
 			_playIcon.style.display = DisplayStyle.None;
 			_replayIcon.style.display = DisplayStyle.Flex;
 
-			_echoInstance.transform.position = _echoDefaultPosition;
+			// _echoInstance.transform.position = _echoDefaultPosition;
+			_echoInstanceRigidBody.MovePosition(_echoDefaultPosition);
 			return;
 		}
 
 
-		_echoInstance.transform.position = _positions.LastOrDefault();
+		// _echoInstance.transform.position = _positions.LastOrDefault();
+		_echoInstanceRigidBody.MovePosition(_positions.LastOrDefault());
 		_positions.RemoveAt(_positions.Count - 1);
 
 		remainingDuration += Time.fixedDeltaTime;
