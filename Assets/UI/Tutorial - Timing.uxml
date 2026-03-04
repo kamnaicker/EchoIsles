@@ -1,0 +1,8 @@
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/Tutorial.uss?fileID=7433441132597879392&amp;guid=f9d526b174858c945bba53336a273e6f&amp;type=3#Tutorial"/>
+    <ui:VisualElement>
+        <ui:Label text="While using the &quot;echo&quot;, make sure to stay on some pressure plates long enough, so the future you has enough time to run through" class="worldSpaceText" style="width: 438px; height: 107px; white-space: normal; -unity-text-outline-width: 3px;">
+            <ui:Label text="While using the &quot;echo&quot;, make sure to stay on some pressure plates long enough, so the future you has enough time to run through" name="Label" class="worldSpaceText" style="-unity-text-outline-width: 0; -unity-text-outline-color: rgb(109, 75, 39); color: rgb(255, 241, 210); position: absolute; top: 0; left: 0; right: 0; bottom: 0; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; white-space: normal;"/>
+        </ui:Label>
+    </ui:VisualElement>
+</ui:UXML>
