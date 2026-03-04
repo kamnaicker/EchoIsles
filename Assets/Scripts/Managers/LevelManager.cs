@@ -79,12 +79,16 @@ public class LevelManager : MonoBehaviour
 		if (definition == null)
 			return;
 
-		if (_activeLevel != null && _activeLevel != definition && _activeLevel.SceneName == definition.SceneName)
+		LevelDefinition previousActiveLevel = _activeLevel;
+
+		if (previousActiveLevel != null && previousActiveLevel != definition && previousActiveLevel.SceneName == definition.SceneName)
 			Debug.LogWarning($"LevelManager replacing active level definition in scene '{definition.SceneName}'.");
 
 		_activeLevel = definition;
 
-		if (State != LevelState.Completed)
+		// When a new scene registers its level, reset from Completed so completion can occur again.
+		bool sceneChanged = previousActiveLevel == null || !string.Equals(previousActiveLevel.SceneName, definition.SceneName);
+		if (sceneChanged || State != LevelState.Completed)
 			UpdateLevelState(LevelState.InProgress);
 
 		if (_activeLevel.AutoCompleteWhenReady)
