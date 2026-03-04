@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Unity.Properties;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
 
 public class Replayer : MonoBehaviour
@@ -36,38 +37,34 @@ public class Replayer : MonoBehaviour
 
 	private void OnEnable()
 	{
-		VisualElement root = guiDocument.rootVisualElement;
+		SceneManager.sceneLoaded += HandleSceneLoaded;
+		TryBindUiReferences();
+	}
 
-		_echoBarContainer = root.Q<VisualElement>("replay-elements");
-		_remainingEchoBar = root.Q<ProgressBar>("remaining-echo-bar");
-		_replayIcon = root.Q<Image>("replay-icon");
-		_playIcon = root.Q<Image>("play-icon");
-		_recordIcon = root.Q<Image>("record-icon");
-
-		_recordButtonHint = root.Q<VisualElement>("record-button");
-		_replayButtonHint = root.Q<VisualElement>("replay-button");
-
-		_echoBarContainer.style.opacity = 0.5f;
-		_recordButtonHint.style.opacity = 0.5f;
-		_replayButtonHint.style.opacity = 0.5f;
-
-		BindEchoProgressBarUI();
+	private void OnDisable()
+	{
+		SceneManager.sceneLoaded -= HandleSceneLoaded;
 	}
 
 	private void Awake()
 	{
 		if (Instance == null)
+		{
 			Instance = this;
-		else
+			DontDestroyOnLoad(gameObject);
+		}
+		else if (Instance != this)
+		{
+			Instance.ApplySceneReferencesFrom(this);
 			Destroy(gameObject);
+		}
 	}
 
 	public void Start()
 	{
-		DontDestroyOnLoad(gameObject);
 		_positions = new List<Vector3>();
-		_echoInstance = Instantiate(playerEchoPrefab, _echoDefaultPosition, Quaternion.identity);
-		_echoInstanceRigidBody = _echoInstance.GetComponent<Rigidbody>();
+		EnsureEchoInstance();
+		ResetReplayState(clearPositions: true);
 	}
 
 
@@ -80,6 +77,12 @@ public class Replayer : MonoBehaviour
 
 	private void Record()
 	{
+		if (!EnsurePlayerReference())
+		{
+			recording = false;
+			return;
+		}
+
 		if (remainingDuration <= 0f)
 		{
 			remainingDuration = 0;
@@ -95,21 +98,16 @@ public class Replayer : MonoBehaviour
 
 	private void Replay()
 	{
-		if (_positions.Count == 0)
+		if (!EnsureEchoInstance())
 		{
 			replaying = false;
-			remainingDuration = maxRecordingDuration;
-			remainingDurationPercentage = 100f;
+			return;
+		}
 
-			_echoBarContainer.style.opacity = 0.5f;
-			_recordButtonHint.style.opacity = 0.5f;
-			_replayButtonHint.style.opacity = 0.5f;
-
-			_playIcon.style.display = DisplayStyle.None;
-			_replayIcon.style.display = DisplayStyle.Flex;
-
-			// _echoInstance.transform.position = _echoDefaultPosition;
-			_echoInstanceRigidBody.MovePosition(_echoDefaultPosition);
+		if (_positions.Count == 0)
+		{
+			ResetReplayState(clearPositions: false);
+			MoveEchoToDefaultPosition();
 			return;
 		}
 
@@ -124,6 +122,9 @@ public class Replayer : MonoBehaviour
 
 	private void BindEchoProgressBarUI()
 	{
+		if (_remainingEchoBar == null)
+			return;
+
 		_remainingEchoBar.dataSource = this;
 
 		_remainingEchoBar.SetBinding("value", new DataBinding
@@ -135,25 +136,36 @@ public class Replayer : MonoBehaviour
 
 	public void ToggleRecordingAvailability(bool isAvailable)
 	{
+		TryBindUiReferences();
 		isRecordingAvailable = isAvailable;
 		if (isAvailable)
 		{
-			_echoBarContainer.style.opacity = 1f;
-			_recordButtonHint.style.opacity = 1f;
+			if (_echoBarContainer != null)
+				_echoBarContainer.style.opacity = 1f;
+
+			if (_recordButtonHint != null)
+				_recordButtonHint.style.opacity = 1f;
 		}
 		else if (!recording)
 		{
-			_recordButtonHint.style.opacity = 0.5f;
-			_echoBarContainer.style.opacity = 0.5f;
+			if (_recordButtonHint != null)
+				_recordButtonHint.style.opacity = 0.5f;
+
+			if (_echoBarContainer != null)
+				_echoBarContainer.style.opacity = 0.5f;
 		}
 	}
 
 	public void OnRecord()
 	{
 		Debug.Log("Record");
+		TryBindUiReferences();
 
-		_replayIcon.style.display = DisplayStyle.None;
-		_recordIcon.style.display = DisplayStyle.Flex;
+		if (_replayIcon != null)
+			_replayIcon.style.display = DisplayStyle.None;
+
+		if (_recordIcon != null)
+			_recordIcon.style.display = DisplayStyle.Flex;
 
 
 		if (!recording && isRecordingAvailable)
@@ -165,21 +177,165 @@ public class Replayer : MonoBehaviour
 		if (recording)
 		{
 			recording = false;
-			_replayButtonHint.style.opacity = 1f;
+
+			if (_replayButtonHint != null)
+				_replayButtonHint.style.opacity = 1f;
 		}
 	}
 
 	public void OnReplay()
 	{
 		Debug.Log("Replay");
+		TryBindUiReferences();
 
-		_recordIcon.style.display = DisplayStyle.None;
-		_playIcon.style.display = DisplayStyle.Flex;
+		if (_recordIcon != null)
+			_recordIcon.style.display = DisplayStyle.None;
+
+		if (_playIcon != null)
+			_playIcon.style.display = DisplayStyle.Flex;
 
 		if (!recording)
 		{
 			replaying = true;
-			_replayButtonHint.style.opacity = 0.5f;
+
+			if (_replayButtonHint != null)
+				_replayButtonHint.style.opacity = 0.5f;
 		}
+	}
+
+	private void HandleSceneLoaded(Scene scene, LoadSceneMode mode)
+	{
+		TryBindUiReferences();
+		ResetReplayState(clearPositions: true);
+		EnsurePlayerReference();
+		EnsureEchoInstance();
+		MoveEchoToDefaultPosition();
+	}
+
+	private void TryBindUiReferences()
+	{
+		if (guiDocument == null)
+			return;
+
+		VisualElement root = guiDocument.rootVisualElement;
+		if (root == null)
+			return;
+
+		_echoBarContainer = root.Q<VisualElement>("replay-elements");
+		_remainingEchoBar = root.Q<ProgressBar>("remaining-echo-bar");
+		_replayIcon = root.Q<Image>("replay-icon");
+		_playIcon = root.Q<Image>("play-icon");
+		_recordIcon = root.Q<Image>("record-icon");
+
+		_recordButtonHint = root.Q<VisualElement>("record-button");
+		_replayButtonHint = root.Q<VisualElement>("replay-button");
+
+		if (_echoBarContainer != null)
+			_echoBarContainer.style.opacity = 0.5f;
+
+		if (_recordButtonHint != null)
+			_recordButtonHint.style.opacity = 0.5f;
+
+		if (_replayButtonHint != null)
+			_replayButtonHint.style.opacity = 0.5f;
+
+		BindEchoProgressBarUI();
+	}
+
+	private void ApplySceneReferencesFrom(Replayer source)
+	{
+		if (source == null)
+			return;
+
+		if (source.guiDocument != null)
+			guiDocument = source.guiDocument;
+
+		if (source.player != null)
+			player = source.player;
+
+		if (source.playerEchoPrefab != null)
+			playerEchoPrefab = source.playerEchoPrefab;
+
+		TryBindUiReferences();
+	}
+
+	private bool EnsurePlayerReference()
+	{
+		if (player != null)
+			return true;
+
+		GameObject playerObject = GameObject.FindGameObjectWithTag("Player");
+		if (playerObject == null)
+			return false;
+
+		player = playerObject.transform;
+		return player != null;
+	}
+
+	private bool EnsureEchoInstance()
+	{
+		if (_echoInstanceRigidBody != null)
+			return true;
+
+		if (_echoInstance != null)
+			_echoInstanceRigidBody = _echoInstance.GetComponent<Rigidbody>();
+
+		if (_echoInstanceRigidBody != null)
+			return true;
+
+		if (playerEchoPrefab == null)
+		{
+			Debug.LogWarning("Replayer cannot spawn echo because playerEchoPrefab is missing.");
+			return false;
+		}
+
+		_echoInstance = Instantiate(playerEchoPrefab, _echoDefaultPosition, Quaternion.identity);
+		_echoInstanceRigidBody = _echoInstance.GetComponent<Rigidbody>();
+		if (_echoInstanceRigidBody == null)
+		{
+			Debug.LogWarning("Replayer echo prefab is missing a Rigidbody component.");
+			return false;
+		}
+
+		DontDestroyOnLoad(_echoInstance);
+		return true;
+	}
+
+	private void MoveEchoToDefaultPosition()
+	{
+		if (_echoInstanceRigidBody == null)
+			return;
+
+		_echoInstanceRigidBody.MovePosition(_echoDefaultPosition);
+	}
+
+	private void ResetReplayState(bool clearPositions)
+	{
+		recording = false;
+		replaying = false;
+		isRecordingAvailable = false;
+		remainingDuration = maxRecordingDuration;
+		remainingDurationPercentage = 100f;
+
+		if (clearPositions)
+			_positions?.Clear();
+
+		if (_echoBarContainer != null)
+			_echoBarContainer.style.opacity = 0.5f;
+
+		if (_recordButtonHint != null)
+			_recordButtonHint.style.opacity = 0.5f;
+
+		if (_replayButtonHint != null)
+			_replayButtonHint.style.opacity = 0.5f;
+
+		if (_playIcon != null)
+			_playIcon.style.display = DisplayStyle.None;
+
+		if (_recordIcon != null)
+			_recordIcon.style.display = DisplayStyle.None;
+
+		if (_replayIcon != null)
+			_replayIcon.style.display = DisplayStyle.Flex;
 	}
 }
