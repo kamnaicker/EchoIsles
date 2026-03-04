@@ -38,7 +38,9 @@ public class Player : MonoBehaviour
 	private Vector3 _platformPosition;
 	private Vector3 _platformMovement;
 
-	public void OnMove(InputAction.CallbackContext context)
+	private bool isWalking = false;
+
+    public void OnMove(InputAction.CallbackContext context)
 	{
 		_inputValue = context.ReadValue<Vector2>();
 	}
@@ -116,7 +118,19 @@ public class Player : MonoBehaviour
 		Quaternion newRotation = Quaternion.LookRotation(targetRotationDirection);
 		Quaternion targetRotation = Quaternion.Slerp(transform.rotation, newRotation, rotationSpeed * Time.deltaTime);
 		transform.rotation = targetRotation;
-	}
+
+		//calls audiomanager to play footsteps audio if moving
+        if (targetSpeed != 0f && !isWalking)
+        {
+            AudioManager.Instance.HandleMovementStateChanged(MoveState.Walking, gameObject.GetComponent<AudioSource>());
+            isWalking = true;
+        }
+        else if (targetSpeed == 0f && isWalking)
+        {
+            AudioManager.Instance.HandleMovementStateChanged(MoveState.Standing, gameObject.GetComponent<AudioSource>());
+            isWalking = false;
+        }
+    }
 
 	private void UpdateAnimations()
 	{
@@ -197,4 +211,5 @@ public class Player : MonoBehaviour
 		Gizmos.DrawSphere(new Vector3(transform.position.x, transform.position.y - GroundedOffset, transform.position.z),
 			GroundedRadius);
 	}
+
 }

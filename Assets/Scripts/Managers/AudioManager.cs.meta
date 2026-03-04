@@ -1,2 +1,21 @@
 fileFormatVersion: 2
 guid: 72e7095935cf4944db0a90d23b1489b4
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - <footsteps>k__BackingField: {fileID: 8300000, guid: ccf44c0d101954ffbaaece38fb2dea86, type: 3}
+  - <wind>k__BackingField: {fileID: 8300000, guid: 660790bb19a97eb4581a05d90c81f369, type: 3}
+  - <door_open>k__BackingField: {fileID: 8300000, guid: 95d36994c5aaf734e825b9b071968269, type: 3}
+  - <door_close>k__BackingField: {fileID: 8300000, guid: a1350748e0dbbdc4ea1baa4612180a0b, type: 3}
+  - <pressure_plate_down>k__BackingField: {fileID: 8300000, guid: 6e33ddb37488d2d4192b1d657d3ee8e6, type: 3}
+  - <pressure_plate_up>k__BackingField: {fileID: 8300000, guid: 1bcb2912fae89934ba43c9756aa7d255, type: 3}
+  - <echo_area>k__BackingField: {fileID: 8300000, guid: 4558ba739d23b5d46ac8ac68b75a8c28, type: 3}
+  - <echo_area_activated>k__BackingField: {fileID: 8300000, guid: 77b38bc0616494b49b27972033633713, type: 3}
+  - <echo_playback>k__BackingField: {fileID: 8300000, guid: 78e740ef6f99b1c49a1f33144538fd70, type: 3}
+  - <echo_recording>k__BackingField: {fileID: 8300000, guid: 74e457451498e6c4a9cffae7b2beb503, type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

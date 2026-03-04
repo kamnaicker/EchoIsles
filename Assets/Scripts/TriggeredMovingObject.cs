@@ -107,7 +107,7 @@ public class TriggeredMovingObject : InteractiveObject, IPuzzle
 		_movementDirection = MovementDirection.Forward;
 		if (!(_hasReachedSolvedState && retainSolvedStateWhenReturning))
 			SetPuzzleState(IPuzzle.PuzzleState.InProgress);
-	}
+    }
 
 	protected override void OnDeactivation(InteractiveObjectTrigger trigger)
 	{

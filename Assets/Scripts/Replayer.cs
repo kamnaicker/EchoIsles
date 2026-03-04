@@ -107,7 +107,10 @@ public class Replayer : MonoBehaviour
 			_replayIcon.style.display = DisplayStyle.Flex;
 
 			_echoInstance.transform.position = _echoDefaultPosition;
-			return;
+
+            AudioManager.Instance.HandleEchoStateChanged(Echo_State.Inactive, gameObject.GetComponent<AudioSource>());
+
+            return;
 		}
 
 
@@ -151,18 +154,22 @@ public class Replayer : MonoBehaviour
 		_replayIcon.style.display = DisplayStyle.None;
 		_recordIcon.style.display = DisplayStyle.Flex;
 
-
 		if (!recording && isRecordingAvailable)
 		{
 			recording = true;
-			return;
+
+            AudioManager.Instance.HandleEchoStateChanged(Echo_State.Recording, gameObject.GetComponent<AudioSource>());
+
+            return;
 		}
 
 		if (recording)
 		{
 			recording = false;
 			_replayButtonHint.style.opacity = 1f;
-		}
+
+            AudioManager.Instance.HandleEchoStateChanged(Echo_State.Inactive, gameObject.GetComponent<AudioSource>());
+        }
 	}
 
 	public void OnReplay()
@@ -176,6 +183,8 @@ public class Replayer : MonoBehaviour
 		{
 			replaying = true;
 			_replayButtonHint.style.opacity = 0.5f;
-		}
+
+            AudioManager.Instance.HandleEchoStateChanged(Echo_State.Playback, gameObject.GetComponent<AudioSource>());
+        }
 	}
 }

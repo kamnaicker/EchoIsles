@@ -18,14 +18,18 @@ public class PressurePlate : InteractiveObjectTrigger
 	private void OnTriggerEnter(Collider other)
 	{
 		if (other.gameObject.CompareTag("Player"))
-			// _renderer.material = pressedMaterial;
-			Activate();
+            // _renderer.material = pressedMaterial;
+            AudioManager.Instance.HandlePressurePlateStateChanged(PressurePlateState.Down,
+                gameObject.GetComponent<AudioSource>());
+        Activate();
 	}
 
 	private void OnTriggerExit(Collider other)
 	{
 		if (other.gameObject.CompareTag("Player"))
-			// _renderer.material = _defaultMaterial;
-			Deactivate();
+            AudioManager.Instance.HandlePressurePlateStateChanged(PressurePlateState.Up,
+                gameObject.GetComponent<AudioSource>());
+        // _renderer.material = _defaultMaterial;
+        Deactivate();
 	}
 }

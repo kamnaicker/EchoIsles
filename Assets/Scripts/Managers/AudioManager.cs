@@ -9,6 +9,34 @@ public class AudioManager : MonoBehaviour
     private bool _isSubscribedToGameManager;
     private bool _isSubscribedToPuzzleManager;
 
+    private AudioSource windSource;
+
+    [field: SerializeField]
+    public AudioClip footsteps { get; set; }
+
+    [field: SerializeField]
+    public AudioClip wind { get; set; }
+
+    [field: SerializeField]
+    public AudioClip door_open { get; set; }
+    [field: SerializeField]
+    public AudioClip door_close { get; set; }
+
+    [field: SerializeField]
+    public AudioClip pressure_plate_down { get; set; }
+    [field: SerializeField]
+    public AudioClip pressure_plate_up { get; set; }
+
+    [field: SerializeField]
+    public AudioClip echo_area { get; set; }
+    [field: SerializeField]
+    public AudioClip echo_area_activated { get; set; }
+
+    [field: SerializeField]
+    public AudioClip echo_playback { get; set; }
+    [field: SerializeField]
+    public AudioClip echo_recording { get; set; }
+
     void Awake()
     {
         if (Instance == null)
@@ -40,6 +68,10 @@ public class AudioManager : MonoBehaviour
         Debug.Log($"Trying to subscribe to PuzzleManager events. Result is: {_isSubscribedToPuzzleManager}");
         TrySubscribeToPuzzleManager();
         Debug.Log($"Trying to subscribe to PuzzleManager events. Result is: {_isSubscribedToPuzzleManager}");
+
+        windSource = gameObject.AddComponent<AudioSource>();
+        windSource.clip = wind;
+        windSource.loop = true;
     }
 
     void OnDisable()
@@ -49,7 +81,7 @@ public class AudioManager : MonoBehaviour
         if (_isSubscribedToGameManager && GameManager.Instance != null)
             GameManager.Instance.OnGameStateChanged -= HandleGameStateChanged;
 
-        if(_isSubscribedToPuzzleManager && PuzzleManager.Instance != null)
+        if (_isSubscribedToPuzzleManager && PuzzleManager.Instance != null)
             PuzzleManager.Instance.OnPuzzleStateChanged -= HandlePuzzleStateChanged;
 
         _isSubscribedToGameManager = false;
@@ -149,9 +181,11 @@ public class AudioManager : MonoBehaviour
                 break;
             case GameState.Playing:
                 // Handle audio for playing
+                windSource.Play();
                 break;
             case GameState.Paused:
                 // Handle audio for paused
+                windSource.Stop();
                 break;
             case GameState.LevelCompleted:
                 // Handle audio for level completed
@@ -166,9 +200,9 @@ public class AudioManager : MonoBehaviour
                 break;
         }
     }
-    
 
-public void PlayMenuMusic()
+
+    public void PlayMenuMusic()
     {
         Debug.Log("Playing menu music");
     }
@@ -181,9 +215,96 @@ public void PlayMenuMusic()
     {
         Debug.Log("Playing Puzzle Solved Music");
     }
+
+    public void HandleMovementStateChanged(MoveState newState, AudioSource walkSoundSource)
+    {
+        switch (newState)
+        {
+            case MoveState.Walking:
+                walkSoundSource.clip = footsteps;
+                walkSoundSource.loop = true;
+                walkSoundSource.pitch = 0.6f;
+                walkSoundSource.volume = 0.5f;
+                walkSoundSource.PlayDelayed(0.2f);
+                break;
+            case MoveState.Standing:
+                walkSoundSource.Stop();
+                break;
+        }
+    }
+
+    public void HandleDoorStateChanged(DoorState newState, AudioSource fxSource)
+    {
+        switch (newState)
+        {
+            case DoorState.Open:
+                fxSource.volume = 0.7f;
+                fxSource.PlayOneShot(door_open);
+                break;
+            case DoorState.Close:
+                fxSource.volume = 0.7f;
+                fxSource.PlayOneShot(door_close);
+                break;
+        }
+    }
+
+    public void HandlePressurePlateStateChanged(PressurePlateState newState, AudioSource fxSource)
+    {
+        switch (newState)
+        {
+            case PressurePlateState.Down:
+                fxSource.volume = 0.8f;
+                fxSource.PlayOneShot(pressure_plate_down);
+                break;
+            case PressurePlateState.Up:
+                fxSource.volume = 0.6f;
+                fxSource.PlayOneShot(pressure_plate_up);
+                break;
+        }
+    }
+
+    public void HandleEchoPlateStateChanged(EchoPlateState newState, AudioSource fxSource)
+    {
+        switch (newState)
+        {
+            case EchoPlateState.On:
+                fxSource.clip = echo_area;
+                fxSource.volume = 0.7f;
+                fxSource.loop = true;
+                fxSource.Play();
+                break;
+            case EchoPlateState.Off:
+                fxSource.Stop();
+                break;
+            case EchoPlateState.Activated:
+                fxSource.PlayOneShot(echo_area_activated);
+                break;
+        }
+    }
+
+    public void HandleEchoStateChanged(Echo_State newState, AudioSource fxSource)
+    {
+        switch (newState)
+        {
+            case Echo_State.Inactive:
+                fxSource.Stop();
+                break;
+            case Echo_State.Recording:
+                fxSource.clip = echo_recording;
+                fxSource.volume = 0.8f;
+                fxSource.loop = true;
+                fxSource.Play();
+                break;
+            case Echo_State.Playback:
+                fxSource.clip = echo_playback;
+                fxSource.volume = 0.8f;
+                fxSource.loop = true;
+                fxSource.Play();
+                break;
+        }
+    }
 }
 
-    
 
 public enum MusicTrack
 {
@@ -203,4 +324,37 @@ public enum AudioState
     Muted,
     FadingIn,
     FadingOut
+}
+
+
+public enum MoveState
+{
+    Walking,
+    Standing
+}
+
+public enum DoorState
+{
+    Open,
+    Close
+}
+
+public enum PressurePlateState
+{
+    Down,
+    Up
+}
+
+public enum EchoPlateState
+{
+    On,
+    Off,
+    Activated
+}
+
+public enum Echo_State
+{
+    Inactive,
+    Recording,
+    Playback
 }
