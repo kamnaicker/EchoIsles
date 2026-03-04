@@ -1,0 +1,9 @@
+:root {
+}
+
+.worldSpaceText {
+    font-size: 34px;
+    color: rgb(255, 241, 210);
+    -unity-font-style: bold;
+    -unity-text-outline-color: rgb(109, 75, 39);
+}

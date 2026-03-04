@@ -96,7 +96,8 @@ public class Player : MonoBehaviour
 		if (_inputValue != Vector2.zero)
 			inputDirection = Vector3.right * _inputValue.x + Vector3.forward * _inputValue.y;
 
-		Vector3 inputMovement = _speed * Time.fixedDeltaTime * inputDirection.normalized;
+		// Adjust movement direction to the camera angle (45 degrees)
+		Vector3 inputMovement = _speed * Time.fixedDeltaTime * (Quaternion.Euler(0, -45, 0) * inputDirection.normalized);
 		Vector3 gravityMovement = new Vector3(0.0f, _verticalVelocity, 0.0f) * Time.fixedDeltaTime;
 
 		// // TODO: Fix platform behaviour
