@@ -25,6 +25,13 @@ A stylised, isometric adventure game where the player explores the vertical ruin
 
 ---
 
+## External Assets References/Credits
+
+- Some of the sounds in this project were created by
+  -David McKee (ViRiX) soundcloud.com/virix
+  - syncopika
+  - HitCtrl
+
 ## Team
 
 - **Cameron** [@PriceyC](https://github.com/PriceyC): Artist and Level Designer eg: Grayboxing, spatial readability, Lighting, color palette, props.

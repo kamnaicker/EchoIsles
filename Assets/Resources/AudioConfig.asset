@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 36a80c23ca08b414a8a4b804f7a05425, type: 3}
+  m_Name: AudioConfig
+  m_EditorClassIdentifier: Assembly-CSharp::AudioConfig
+  MenuMusic: {fileID: 8300000, guid: 5270f507f4607ba40b5a8ff79dbeb132, type: 3}
+  LevelCompleteClip: {fileID: 8300000, guid: fca40cc6508eda54b8f9aed5d7ea4781, type: 3}
+  PuzzleSolvedClip: {fileID: 0}
+  SceneMusic:
+  - SceneName: Tutorial
+    Clip: {fileID: 8300000, guid: 8b9677b35a48fc54eadc3361ac9d1c2c, type: 3}
+  - SceneName: Level 2
+    Clip: {fileID: 8300000, guid: 2a65b8a1d470491429e73f0f2929784e, type: 3}
+  - SceneName: Level 3
+    Clip: {fileID: 8300000, guid: df14066b87d55574a807056c4006dcf5, type: 3}
+  - SceneName: Level 4
+    Clip: {fileID: 8300000, guid: 546138be506ec0a4db31b496b092e64f, type: 3}
