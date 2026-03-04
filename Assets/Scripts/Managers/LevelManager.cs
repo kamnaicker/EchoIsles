@@ -9,6 +9,7 @@ public class LevelManager : MonoBehaviour
 	private const string MainMenuSceneName = "Main Menu";
 
 	public LevelState State { get; private set; } = LevelState.None;
+	public bool HasStateInitialized { get; private set; }
 	public event System.Action<LevelState> OnLevelStateChanged;
 
 	private LevelDefinition _activeLevel;
@@ -262,6 +263,7 @@ public class LevelManager : MonoBehaviour
 	private void UpdateLevelState(LevelState newState)
 	{
 		State = newState;
+		HasStateInitialized = true;
 		OnLevelStateChanged?.Invoke(newState);
 	}
 

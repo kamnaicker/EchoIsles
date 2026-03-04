@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class AudioManager : MonoBehaviour
 {
@@ -8,52 +9,71 @@ public class AudioManager : MonoBehaviour
     public event System.Action<AudioState> OnMusicChanged;
     private bool _isSubscribedToGameManager;
     private bool _isSubscribedToPuzzleManager;
+    private bool _isSubscribedToLevelManager;
 
-    void Awake()
+    private AudioSource _musicSource;
+    private AudioConfig _audioConfig;
+    private float _volume = 0.75f;
+
+    public float Volume
+    {
+        get => _volume;
+        set
+        {
+            _volume = Mathf.Clamp01(value);
+            if (_musicSource != null)
+                _musicSource.volume = _volume;
+        }
+    }
+
+    private void Awake()
     {
         if (Instance == null)
         {
             Instance = this;
             DontDestroyOnLoad(gameObject);
+
+            _musicSource = gameObject.AddComponent<AudioSource>();
+            _musicSource.loop = true;
+            _musicSource.playOnAwake = false;
+            _musicSource.volume = _volume;
+
+            _audioConfig = Resources.Load<AudioConfig>("AudioConfig");
+            if (_audioConfig == null)
+                Debug.LogWarning("AudioManager: AudioConfig not found in Resources folder.");
         }
         else
             Destroy(gameObject);
     }
 
-    void OnEnable()
+    private void OnEnable()
     {
-        Debug.Log("AudioManager enabled, trying to subscribe to GameManager and PuzzleManager events.");
-        Debug.Log($"Trying to subscribe to GameManager events. Result is: {_isSubscribedToGameManager}");
         TrySubscribeToGameManager();
-        Debug.Log($"Trying to subscribe to GameManager events. Result is: {_isSubscribedToGameManager}");
-        Debug.Log($"Trying to subscribe to PuzzleManager events. Result is: {_isSubscribedToPuzzleManager}");
         TrySubscribeToPuzzleManager();
-        Debug.Log($"Trying to subscribe to PuzzleManager events. Result is: {_isSubscribedToPuzzleManager}");
+        TrySubscribeToLevelManager();
     }
 
     private void Start()
     {
-        Debug.Log("AudioManager started, trying to subscribe to GameManager and PuzzleManager events.");
-        Debug.Log($"Trying to subscribe to GameManager events. Result is: {_isSubscribedToGameManager}");
         TrySubscribeToGameManager();
-        Debug.Log($"Trying to subscribe to GameManager events. Result is: {_isSubscribedToGameManager}");
-        Debug.Log($"Trying to subscribe to PuzzleManager events. Result is: {_isSubscribedToPuzzleManager}");
         TrySubscribeToPuzzleManager();
-        Debug.Log($"Trying to subscribe to PuzzleManager events. Result is: {_isSubscribedToPuzzleManager}");
+        TrySubscribeToLevelManager();
     }
 
-    void OnDisable()
+    private void OnDisable()
     {
-        Debug.Log("AudioManager disabled, unsubscribing from GameManager and PuzzleManager events.");
-
         if (_isSubscribedToGameManager && GameManager.Instance != null)
             GameManager.Instance.OnGameStateChanged -= HandleGameStateChanged;
 
-        if(_isSubscribedToPuzzleManager && PuzzleManager.Instance != null)
+        if (_isSubscribedToPuzzleManager && PuzzleManager.Instance != null)
             PuzzleManager.Instance.OnPuzzleStateChanged -= HandlePuzzleStateChanged;
+
+        if (_isSubscribedToLevelManager && LevelManager.Instance != null)
+            LevelManager.Instance.OnLevelStateChanged -= HandleLevelStateChanged;
 
         _isSubscribedToGameManager = false;
         _isSubscribedToPuzzleManager = false;
+        _isSubscribedToLevelManager = false;
     }
 
     private void TrySubscribeToGameManager()
@@ -63,14 +83,11 @@ public class AudioManager : MonoBehaviour
 
         GameManager.Instance.OnGameStateChanged += HandleGameStateChanged;
         _isSubscribedToGameManager = true;
-        Debug.Log("AudioManager subscribed to GameManager.OnGameStateChanged.");
 
         if (GameManager.Instance.HasStateInitialized)
-        {
-            Debug.Log($"AudioManager late-syncing to current GameState: {GameManager.Instance.State}");
             HandleGameStateChanged(GameManager.Instance.State);
-        }
     }
+
     private void TrySubscribeToPuzzleManager()
     {
         if (_isSubscribedToPuzzleManager || PuzzleManager.Instance == null)
@@ -78,13 +95,21 @@ public class AudioManager : MonoBehaviour
 
         PuzzleManager.Instance.OnPuzzleStateChanged += HandlePuzzleStateChanged;
         _isSubscribedToPuzzleManager = true;
-        Debug.Log("AudioManager subscribed to PuzzleManager.OnPuzzleStateChanged.");
 
         if (PuzzleManager.Instance.HasStateInitialized)
-        {
-            Debug.Log($"AudioManager late-syncing to current PuzzleState: {PuzzleManager.Instance.State}");
             HandlePuzzleStateChanged(PuzzleManager.Instance.State);
-        }
+    }
+
+    private void TrySubscribeToLevelManager()
+    {
+        if (_isSubscribedToLevelManager || LevelManager.Instance == null)
+            return;
+
+        LevelManager.Instance.OnLevelStateChanged += HandleLevelStateChanged;
+        _isSubscribedToLevelManager = true;
+
+        if (LevelManager.Instance.HasStateInitialized)
+            HandleLevelStateChanged(LevelManager.Instance.State);
     }
 
     public void UpdateAudioState(AudioState newAudioState)
@@ -133,57 +158,95 @@ public class AudioManager : MonoBehaviour
         }
     }
 
+    public void HandleLevelStateChanged(LevelState newState)
+    {
+        Debug.Log($"AudioManager received LevelState: {newState}");
+        switch (newState)
+        {
+            case LevelState.InProgress:
+                break;
+            case LevelState.Completed:
+                PlayLevelCompleteMusic();
+                break;
+            case LevelState.Failed:
+                break;
+            case LevelState.None:
+                break;
+        }
+    }
+
     public void HandleGameStateChanged(GameState newState)
     {
         Debug.Log($"AudioManager received GameState: {newState}");
         switch (newState)
         {
             case GameState.Initialisation:
-                // Handle audio for initialisation
                 break;
             case GameState.Menu:
-                // Handle audio for menu
+                PlayMenuMusic();
                 break;
             case GameState.Loading:
-                // Handle audio for loading
                 break;
             case GameState.Playing:
-                // Handle audio for playing
+                PlaySceneMusic();
                 break;
             case GameState.Paused:
-                // Handle audio for paused
                 break;
             case GameState.LevelCompleted:
-                // Handle audio for level completed
+                PlayLevelCompleteMusic();
                 break;
             case GameState.GameOver:
-                // Handle audio for game over
                 break;
             case GameState.Credits:
-                // Handle audio for credits
                 break;
             default:
                 break;
         }
     }
-    
 
-public void PlayMenuMusic()
+    public void PlayMenuMusic()
     {
-        Debug.Log("Playing menu music");
-    }
-    public void PlayGameplayMusic()
-    {
-        Debug.Log("Playing gameplay music");
+        if (_audioConfig != null)
+            PlayMusic(_audioConfig.MenuMusic);
     }
 
     public void PlayPuzzleSolvedMusic()
     {
-        Debug.Log("Playing Puzzle Solved Music");
+        if (_audioConfig != null && _audioConfig.PuzzleSolvedClip != null)
+            _musicSource.PlayOneShot(_audioConfig.PuzzleSolvedClip, _volume);
+    }
+
+    private void PlayLevelCompleteMusic()
+    {
+        if (_audioConfig != null && _audioConfig.LevelCompleteClip != null)
+            _musicSource.PlayOneShot(_audioConfig.LevelCompleteClip, _volume);
+    }
+
+    private void PlaySceneMusic()
+    {
+        if (_audioConfig == null)
+            return;
+
+        string sceneName = SceneManager.GetActiveScene().name;
+        AudioClip clip = _audioConfig.GetSceneClip(sceneName);
+        PlayMusic(clip);
+    }
+
+    private void PlayMusic(AudioClip clip)
+    {
+        if (clip == null)
+        {
+            _musicSource.Stop();
+            return;
+        }
+
+        if (_musicSource.clip == clip && _musicSource.isPlaying)
+            return;
+
+        _musicSource.clip = clip;
+        _musicSource.Play();
     }
 }
-
-    
 
 public enum MusicTrack
 {
