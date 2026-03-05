@@ -11,8 +11,6 @@ public class AudioManager : MonoBehaviour
     private bool _isSubscribedToPuzzleManager;
     private bool _isSubscribedToLevelManager;
 
-    private AudioSource windSource;
-
     [field: SerializeField]
     public AudioClip footsteps { get; set; }
 
@@ -39,9 +37,9 @@ public class AudioManager : MonoBehaviour
     [field: SerializeField]
     public AudioClip echo_recording { get; set; }
 
-    void Awake()
     private AudioSource _musicSource;
     private AudioConfig _audioConfig;
+    private AudioSource windSource;
     private float _volume = 0.75f;
 
     public float Volume
@@ -218,6 +216,7 @@ public class AudioManager : MonoBehaviour
                 break;
             case GameState.Menu:
                 PlayMenuMusic();
+                windSource.Stop();
                 break;
             case GameState.Loading:
                 break;
@@ -230,14 +229,15 @@ public class AudioManager : MonoBehaviour
                 windSource.Stop();
                 PlaySceneMusic();
                 break;
-            case GameState.Paused:
-                break;
             case GameState.LevelCompleted:
                 PlayLevelCompleteMusic();
+                windSource.Stop();
                 break;
             case GameState.GameOver:
+                windSource.Stop();
                 break;
             case GameState.Credits:
+                windSource.Stop();
                 break;
             default:
                 break;

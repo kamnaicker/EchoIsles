@@ -58,7 +58,10 @@ public class TriggeredMovingObject : InteractiveObject, IPuzzle
 		_targetPosition = _initialPosition + targetPositionOffset;
 		SetPuzzleState(IPuzzle.PuzzleState.Unsolved);
 		PublishStateToPuzzleManager(force: true);
-	}
+
+		if (gameObject.GetComponent<AudioSource>() == null) gameObject.AddComponent<AudioSource>();
+
+    }
 
 	private void HandleMovement()
 	{
