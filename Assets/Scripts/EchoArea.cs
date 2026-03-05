@@ -6,7 +6,9 @@ public class EchoArea : MonoBehaviour
 	{
 		if (other.gameObject.CompareTag("Player")) 
 		{
-			//Replayer.Instance.ToggleRecordingAvailability(true);
+			Replayer.Instance.ToggleRecordingAvailability(true);
+
+			if (gameObject.GetComponent<AudioSource>() == null) gameObject.AddComponent<AudioSource>();
             AudioManager.Instance.HandleEchoPlateStateChanged(EchoPlateState.On, gameObject.GetComponent<AudioSource>());
         }
 	}
@@ -15,7 +17,9 @@ public class EchoArea : MonoBehaviour
 	{
 		if (other.gameObject.CompareTag("Player")) 
         {
-			//Replayer.Instance.ToggleRecordingAvailability(false);
+			Replayer.Instance.ToggleRecordingAvailability(false);
+
+			if (gameObject.GetComponent<AudioSource>() == null) gameObject.AddComponent<AudioSource>();
             AudioManager.Instance.HandleEchoPlateStateChanged(EchoPlateState.Off, gameObject.GetComponent<AudioSource>());
         }
     }

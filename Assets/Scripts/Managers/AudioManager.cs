@@ -224,7 +224,7 @@ public class AudioManager : MonoBehaviour
                 walkSoundSource.clip = footsteps;
                 walkSoundSource.loop = true;
                 walkSoundSource.pitch = 0.6f;
-                walkSoundSource.volume = 0.5f;
+                walkSoundSource.volume = 0.4f;
                 walkSoundSource.PlayDelayed(0.2f);
                 break;
             case MoveState.Standing:
@@ -237,13 +237,14 @@ public class AudioManager : MonoBehaviour
     {
         switch (newState)
         {
-            case DoorState.Open:
-                fxSource.volume = 0.7f;
-                fxSource.PlayOneShot(door_open);
+            case DoorState.Moving:
+                fxSource.clip = door_open;
+                fxSource.loop = false;
+                fxSource.volume = 0.5f;
+                fxSource.Play();
                 break;
-            case DoorState.Close:
-                fxSource.volume = 0.7f;
-                fxSource.PlayOneShot(door_close);
+            case DoorState.Still:;
+                fxSource.Stop();
                 break;
         }
     }
@@ -253,11 +254,11 @@ public class AudioManager : MonoBehaviour
         switch (newState)
         {
             case PressurePlateState.Down:
-                fxSource.volume = 0.8f;
+                fxSource.volume = 0.6f;
                 fxSource.PlayOneShot(pressure_plate_down);
                 break;
             case PressurePlateState.Up:
-                fxSource.volume = 0.6f;
+                fxSource.volume = 0.4f;
                 fxSource.PlayOneShot(pressure_plate_up);
                 break;
         }
@@ -291,13 +292,13 @@ public class AudioManager : MonoBehaviour
                 break;
             case Echo_State.Recording:
                 fxSource.clip = echo_recording;
-                fxSource.volume = 0.8f;
+                fxSource.volume = 0.7f;
                 fxSource.loop = true;
                 fxSource.Play();
                 break;
             case Echo_State.Playback:
                 fxSource.clip = echo_playback;
-                fxSource.volume = 0.8f;
+                fxSource.volume = 0.7f;
                 fxSource.loop = true;
                 fxSource.Play();
                 break;
@@ -335,8 +336,8 @@ public enum MoveState
 
 public enum DoorState
 {
-    Open,
-    Close
+    Moving,
+    Still
 }
 
 public enum PressurePlateState

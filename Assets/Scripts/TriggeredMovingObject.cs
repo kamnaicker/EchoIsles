@@ -62,9 +62,13 @@ public class TriggeredMovingObject : InteractiveObject, IPuzzle
 
 	private void HandleMovement()
 	{
-		if (_movementDirection == MovementDirection.None) return;
+		if (_movementDirection == MovementDirection.None)
+		{
+            AudioManager.Instance.HandleDoorStateChanged(DoorState.Still, gameObject.GetComponent<AudioSource>());
+            return;
+		}
 
-		bool movingTowardActivatedPosition = _movementDirection == MovementDirection.Forward;
+			bool movingTowardActivatedPosition = _movementDirection == MovementDirection.Forward;
 		Vector3 movementTarget = movingTowardActivatedPosition ? _targetPosition : _initialPosition;
 		Vector3 currentPosition = _rigidbody != null ? _rigidbody.position : transform.position;
 		Vector3 nextPosition = Vector3.MoveTowards(currentPosition, movementTarget, moveSpeed * Time.fixedDeltaTime);
@@ -93,7 +97,10 @@ public class TriggeredMovingObject : InteractiveObject, IPuzzle
 		{
 			_hasReachedSolvedState = true;
 			SetPuzzleState(IPuzzle.PuzzleState.Solved);
-			return;
+
+            AudioManager.Instance.HandleDoorStateChanged(DoorState.Still, gameObject.GetComponent<AudioSource>());
+
+            return;
 		}
 
 		if (_hasReachedSolvedState && retainSolvedStateWhenReturning)
@@ -107,13 +114,19 @@ public class TriggeredMovingObject : InteractiveObject, IPuzzle
 		_movementDirection = MovementDirection.Forward;
 		if (!(_hasReachedSolvedState && retainSolvedStateWhenReturning))
 			SetPuzzleState(IPuzzle.PuzzleState.InProgress);
+
+        AudioManager.Instance.HandleDoorStateChanged(DoorState.Moving, gameObject.GetComponent<AudioSource>());
     }
 
 	protected override void OnDeactivation(InteractiveObjectTrigger trigger)
 	{
-		_movementDirection = MovementDirection.Backward;
 		if (!(_hasReachedSolvedState && retainSolvedStateWhenReturning))
+		{
+			_movementDirection = MovementDirection.Backward;
 			SetPuzzleState(IPuzzle.PuzzleState.InProgress);
+
+            AudioManager.Instance.HandleDoorStateChanged(DoorState.Moving, gameObject.GetComponent<AudioSource>());
+        }
 	}
 
 	public void ResetPuzzle()

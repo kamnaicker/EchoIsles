@@ -6,8 +6,8 @@ MonoImporter:
   defaultReferences:
   - <footsteps>k__BackingField: {fileID: 8300000, guid: ccf44c0d101954ffbaaece38fb2dea86, type: 3}
   - <wind>k__BackingField: {fileID: 8300000, guid: 660790bb19a97eb4581a05d90c81f369, type: 3}
-  - <door_open>k__BackingField: {fileID: 8300000, guid: 95d36994c5aaf734e825b9b071968269, type: 3}
-  - <door_close>k__BackingField: {fileID: 8300000, guid: a1350748e0dbbdc4ea1baa4612180a0b, type: 3}
+  - <door_open>k__BackingField: {fileID: 8300000, guid: 5408933e73ad86342b60a1e54038714a, type: 3}
+  - <door_close>k__BackingField: {fileID: 8300000, guid: 4b7cf934c3a9b804fb74dd6cd2737983, type: 3}
   - <pressure_plate_down>k__BackingField: {fileID: 8300000, guid: 6e33ddb37488d2d4192b1d657d3ee8e6, type: 3}
   - <pressure_plate_up>k__BackingField: {fileID: 8300000, guid: 1bcb2912fae89934ba43c9756aa7d255, type: 3}
   - <echo_area>k__BackingField: {fileID: 8300000, guid: 4558ba739d23b5d46ac8ac68b75a8c28, type: 3}
