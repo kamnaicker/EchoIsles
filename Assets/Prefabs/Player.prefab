@@ -332,10 +332,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: GanzSe Free Modular Character Update 1_1
       objectReference: {fileID: 0}
-    - target: {fileID: 354350443408783854, guid: 094cd1418e634464ebab9c4a1fdcbde4, type: 3}
-      propertyPath: m_TagString
-      value: Untagged
-      objectReference: {fileID: 0}
     - target: {fileID: 1126242358742066004, guid: 094cd1418e634464ebab9c4a1fdcbde4, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -375,14 +371,6 @@ PrefabInstance:
     - target: {fileID: 1126242358742066004, guid: 094cd1418e634464ebab9c4a1fdcbde4, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6431452124632873262, guid: 094cd1418e634464ebab9c4a1fdcbde4, type: 3}
-      propertyPath: m_Controller
-      value: 
-      objectReference: {fileID: 9100000, guid: dea11f3e40845334b80929cd21b60a1b, type: 2}
-    - target: {fileID: 6431452124632873262, guid: 094cd1418e634464ebab9c4a1fdcbde4, type: 3}
-      propertyPath: m_AnimatePhysics
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
