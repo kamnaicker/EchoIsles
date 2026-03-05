@@ -52,6 +52,10 @@ PrefabInstance:
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: 68916a24c1b6f874684228c2aad8c55f, type: 2}
+    - target: {fileID: 2563765488612535469, guid: bfb2d10491bdf2a4ab1bbd55f8358288, type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2950506228037367958, guid: bfb2d10491bdf2a4ab1bbd55f8358288, type: 3}
       propertyPath: m_Name
       value: Player Echo
