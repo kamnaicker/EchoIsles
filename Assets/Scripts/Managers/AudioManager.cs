@@ -42,6 +42,16 @@ public class AudioManager : MonoBehaviour
     private AudioSource windSource;
     private float _volume = 0.75f;
 
+    private AudioClip FootstepsClip => _audioConfig != null && _audioConfig.Footsteps != null ? _audioConfig.Footsteps : footsteps;
+    private AudioClip WindClip => _audioConfig != null && _audioConfig.Wind != null ? _audioConfig.Wind : wind;
+    private AudioClip DoorOpenClip => _audioConfig != null && _audioConfig.Door_open != null ? _audioConfig.Door_open : door_open;
+    private AudioClip PressurePlateDownClip => _audioConfig != null && _audioConfig.Pressure_plate_down != null ? _audioConfig.Pressure_plate_down : pressure_plate_down;
+    private AudioClip PressurePlateUpClip => _audioConfig != null && _audioConfig.Pressure_plate_up != null ? _audioConfig.Pressure_plate_up : pressure_plate_up;
+    private AudioClip EchoAreaClip => _audioConfig != null && _audioConfig.Echo_area != null ? _audioConfig.Echo_area : echo_area;
+    private AudioClip EchoAreaActivatedClip => _audioConfig != null && _audioConfig.Echo_area_activated != null ? _audioConfig.Echo_area_activated : echo_area_activated;
+    private AudioClip EchoPlaybackClip => _audioConfig != null && _audioConfig.Echo_playback != null ? _audioConfig.Echo_playback : echo_playback;
+    private AudioClip EchoRecordingClip => _audioConfig != null && _audioConfig.Echo_recording != null ? _audioConfig.Echo_recording : echo_recording;
+
     public float Volume
     {
         get => _volume;
@@ -88,7 +98,7 @@ public class AudioManager : MonoBehaviour
         Debug.Log($"Trying to subscribe to PuzzleManager events. Result is: {_isSubscribedToPuzzleManager}");
 
         windSource = gameObject.AddComponent<AudioSource>();
-        windSource.clip = wind;
+        windSource.clip = WindClip;
         windSource.loop = true;
         TrySubscribeToLevelManager();
     }
@@ -226,6 +236,7 @@ public class AudioManager : MonoBehaviour
             case GameState.Playing:
                 // Handle audio for playing
                 PlaySceneMusic();
+                windSource.clip = WindClip;
                 windSource.Play();
                 break;
             case GameState.Paused:
@@ -307,7 +318,7 @@ public class AudioManager : MonoBehaviour
         switch (newState)
         {
             case MoveState.Walking:
-                walkSoundSource.clip = footsteps;
+                walkSoundSource.clip = FootstepsClip;
                 walkSoundSource.loop = true;
                 walkSoundSource.pitch = 0.6f;
                 walkSoundSource.volume = 0.4f;
@@ -324,7 +335,7 @@ public class AudioManager : MonoBehaviour
         switch (newState)
         {
             case DoorState.Moving:
-                fxSource.clip = door_open;
+                fxSource.clip = DoorOpenClip;
                 fxSource.loop = false;
                 fxSource.volume = 0.5f;
                 fxSource.Play();
@@ -341,11 +352,11 @@ public class AudioManager : MonoBehaviour
         {
             case PressurePlateState.Down:
                 fxSource.volume = 0.6f;
-                fxSource.PlayOneShot(pressure_plate_down);
+                fxSource.PlayOneShot(PressurePlateDownClip);
                 break;
             case PressurePlateState.Up:
                 fxSource.volume = 0.4f;
-                fxSource.PlayOneShot(pressure_plate_up);
+                fxSource.PlayOneShot(PressurePlateUpClip);
                 break;
         }
     }
@@ -355,7 +366,7 @@ public class AudioManager : MonoBehaviour
         switch (newState)
         {
             case EchoPlateState.On:
-                fxSource.clip = echo_area;
+                fxSource.clip = EchoAreaClip;
                 fxSource.volume = 0.7f;
                 fxSource.loop = true;
                 fxSource.Play();
@@ -364,7 +375,7 @@ public class AudioManager : MonoBehaviour
                 fxSource.Stop();
                 break;
             case EchoPlateState.Activated:
-                fxSource.PlayOneShot(echo_area_activated);
+                fxSource.PlayOneShot(EchoAreaActivatedClip);
                 break;
         }
     }
@@ -377,13 +388,13 @@ public class AudioManager : MonoBehaviour
                 fxSource.Stop();
                 break;
             case Echo_State.Recording:
-                fxSource.clip = echo_recording;
+                fxSource.clip = EchoRecordingClip;
                 fxSource.volume = 0.7f;
                 fxSource.loop = true;
                 fxSource.Play();
                 break;
             case Echo_State.Playback:
-                fxSource.clip = echo_playback;
+                fxSource.clip = EchoPlaybackClip;
                 fxSource.volume = 0.7f;
                 fxSource.loop = true;
                 fxSource.Play();
