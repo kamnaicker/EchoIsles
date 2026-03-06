@@ -15,6 +15,16 @@ MonoBehaviour:
   MenuMusic: {fileID: 8300000, guid: 5270f507f4607ba40b5a8ff79dbeb132, type: 3}
   LevelCompleteClip: {fileID: 8300000, guid: fca40cc6508eda54b8f9aed5d7ea4781, type: 3}
   PuzzleSolvedClip: {fileID: 0}
+  Footsteps: {fileID: 8300000, guid: ccf44c0d101954ffbaaece38fb2dea86, type: 3}
+  Wind: {fileID: 8300000, guid: 660790bb19a97eb4581a05d90c81f369, type: 3}
+  Door_open: {fileID: 8300000, guid: 5408933e73ad86342b60a1e54038714a, type: 3}
+  Door_close: {fileID: 8300000, guid: 4b7cf934c3a9b804fb74dd6cd2737983, type: 3}
+  Pressure_plate_down: {fileID: 8300000, guid: 6e33ddb37488d2d4192b1d657d3ee8e6, type: 3}
+  Pressure_plate_up: {fileID: 8300000, guid: 1bcb2912fae89934ba43c9756aa7d255, type: 3}
+  Echo_area: {fileID: 8300000, guid: 4558ba739d23b5d46ac8ac68b75a8c28, type: 3}
+  Echo_area_activated: {fileID: 8300000, guid: 77b38bc0616494b49b27972033633713, type: 3}
+  Echo_playback: {fileID: 8300000, guid: 78e740ef6f99b1c49a1f33144538fd70, type: 3}
+  Echo_recording: {fileID: 8300000, guid: 74e457451498e6c4a9cffae7b2beb503, type: 3}
   SceneMusic:
   - SceneName: Tutorial
     Clip: {fileID: 8300000, guid: 8b9677b35a48fc54eadc3361ac9d1c2c, type: 3}
