@@ -24,12 +24,12 @@ public class MainMenu : MonoBehaviour
 
 	private void StartGame(ClickEvent evt)
 	{
-		SceneManager.LoadScene(1);
+		SceneManager.LoadScene(2);
 	}
 
 	private void StartTutorial(ClickEvent evt)
 	{
-		SceneManager.LoadScene(2);
+		SceneManager.LoadScene(1);
     }
 
     private void QuitGame(ClickEvent evt)
