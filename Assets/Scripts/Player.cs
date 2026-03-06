@@ -48,6 +48,8 @@ public class Player : MonoBehaviour
 	private void Start()
 	{
 		_controller = GetComponent<CharacterController>();
+		if (gameObject.GetComponent<AudioSource>() == null)
+			gameObject.AddComponent<AudioSource>();
 
 		_fallTimeoutDelta = FallTimeout;
 	}

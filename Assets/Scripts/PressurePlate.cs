@@ -13,23 +13,29 @@ public class PressurePlate : InteractiveObjectTrigger
 	{
 		// _renderer = model.GetComponent<Renderer>();
 		// _defaultMaterial = _renderer.material;
+		if (gameObject.GetComponent<AudioSource>() == null)
+			gameObject.AddComponent<AudioSource>();
 	}
 
 	private void OnTriggerEnter(Collider other)
 	{
 		if (other.gameObject.CompareTag("Player"))
-            // _renderer.material = pressedMaterial;
-            AudioManager.Instance.HandlePressurePlateStateChanged(PressurePlateState.Down,
-                gameObject.GetComponent<AudioSource>());
-        Activate();
+		{
+			// _renderer.material = pressedMaterial;
+			AudioManager.Instance.HandlePressurePlateStateChanged(PressurePlateState.Down,
+				gameObject.GetComponent<AudioSource>());
+			Activate();
+		}
 	}
 
 	private void OnTriggerExit(Collider other)
 	{
 		if (other.gameObject.CompareTag("Player"))
-            AudioManager.Instance.HandlePressurePlateStateChanged(PressurePlateState.Up,
-                gameObject.GetComponent<AudioSource>());
-        // _renderer.material = _defaultMaterial;
-        Deactivate();
+		{
+			AudioManager.Instance.HandlePressurePlateStateChanged(PressurePlateState.Up,
+				gameObject.GetComponent<AudioSource>());
+			// _renderer.material = _defaultMaterial;
+			Deactivate();
+		}
 	}
 }
