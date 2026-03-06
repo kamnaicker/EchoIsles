@@ -75,6 +75,7 @@ public class AudioManager : MonoBehaviour
 
     private void OnEnable()
     {
+        SceneManager.sceneLoaded += HandleSceneLoaded;
         TrySubscribeToGameManager();
         TrySubscribeToPuzzleManager();
         TrySubscribeToLevelManager();
@@ -94,6 +95,8 @@ public class AudioManager : MonoBehaviour
 
     private void OnDisable()
     {
+        SceneManager.sceneLoaded -= HandleSceneLoaded;
+
         if (_isSubscribedToGameManager && GameManager.Instance != null)
             GameManager.Instance.OnGameStateChanged -= HandleGameStateChanged;
 
@@ -222,6 +225,7 @@ public class AudioManager : MonoBehaviour
                 break;
             case GameState.Playing:
                 // Handle audio for playing
+                PlaySceneMusic();
                 windSource.Play();
                 break;
             case GameState.Paused:
@@ -242,6 +246,17 @@ public class AudioManager : MonoBehaviour
             default:
                 break;
         }
+    }
+
+    private void HandleSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        if (GameManager.Instance == null)
+            return;
+
+        if (GameManager.Instance.State == GameState.Playing)
+            PlaySceneMusic();
+        else if (GameManager.Instance.State == GameState.Menu)
+            PlayMenuMusic();
     }
 
     public void PlayMenuMusic()
