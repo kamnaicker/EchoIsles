@@ -28,6 +28,8 @@ public class PlayerEcho : MonoBehaviour
 
 	private void UpdateRotation()
 	{
-		if (_rb.linearVelocity != Vector3.zero) _rb.MoveRotation(Quaternion.LookRotation(_rb.linearVelocity.normalized));
+		if (_rb.linearVelocity != Vector3.zero)
+			_rb.MoveRotation(Quaternion.LookRotation(new Vector3(_rb.linearVelocity.normalized.x, 0,
+				_rb.linearVelocity.normalized.z)));
 	}
 }
