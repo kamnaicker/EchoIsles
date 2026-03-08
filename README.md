@@ -3,6 +3,13 @@
 ## Overview
 
 A stylised, isometric adventure game where the player explores the vertical ruins of a forgotten island city that remembers their past actions. Using a single, elegant mechanic — recording and replaying an echo of themselves — the player solves environmental puzzles and ascends through the ancient city, uncovering fragments of its history.
+![Echo Isles gameplay GIF](https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExMXZqazU3Yzh1NnRwYnhmbXpkNWl1OGRnbXI1aWgzaWw3aHJsMHN6aiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/6jfSXepjbaddZ7DHat/giphy.gif)
+
+---
+<div>
+  <img style="width: 49%" src="https://i.imgur.com/e8VqRIS.png" />
+  <img style="inline; width: 49%" src="https://i.imgur.com/usqI5AM.png" />
+</div>
 
 ---
 
@@ -10,6 +17,12 @@ A stylised, isometric adventure game where the player explores the vertical ruin
 
 - Built with Unity 6.3 LTS
 - Target platform: WebGL build
+
+## Workflow
+
+Trunk-based development with two main branches:
+- `develop` - This is our "trunk". We'll create branches from here for each feature. And merge them back when they are ready. 
+- `main` - This is the "production" branch. Periodically (once a week or two), we'll merge the develop into main. The only rule here is to keep the project from `main` branch without errors (each build should pass) and without critical bugs.
 
 ## Assets Folder Structure
 
